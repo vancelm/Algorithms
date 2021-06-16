@@ -25,17 +25,19 @@ namespace TestConsole
 
         public void RunValidation()
         {
-            Console.WriteLine("Validating...");
+            Console.WriteLine("--- Begin Validation ---");
             bool isValid = ValidateAlgorithms();
 
             if (isValid)
             {
-                Console.WriteLine("Validation passed");
+                Console.WriteLine("--- Validation Passed ---");
             }
             else
             {
-                Console.WriteLine("Validation failed");
+                Console.WriteLine("--- Validation failed ---");
             }
+
+            Console.WriteLine();
         }
 
         protected abstract bool ValidateAlgorithms();
