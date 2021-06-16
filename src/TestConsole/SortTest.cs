@@ -60,7 +60,7 @@ namespace TestConsole
             return true;
         }
 
-        protected override void RunTests()
+        protected override void TestAlgorithms()
         {
             Console.WriteLine();
             Console.WriteLine("Random");

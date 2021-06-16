@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TestConsole
 {
@@ -14,10 +10,10 @@ namespace TestConsole
         public void RunTest()
         {
             Console.WriteLine("Beginning test...");
-            RunTests();
+            TestAlgorithms();
         }
 
-        protected abstract void RunTests();
+        protected abstract void TestAlgorithms();
 
         protected double TestAlgorithm(Action action)
         {

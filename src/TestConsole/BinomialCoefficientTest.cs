@@ -9,7 +9,7 @@ namespace TestConsole
         {
             throw new NotImplementedException();
         }
-        protected override void RunTests()
+        protected override void TestAlgorithms()
         {
             throw new NotImplementedException();
         }
