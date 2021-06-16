@@ -6,7 +6,7 @@ namespace TestConsole
 {
     internal class BinomialCoefficientTest : AlgorithmTest
     {
-        private static readonly IReadOnlyList<(int, int, int)> expectedValues = new List<(int, int, int)>()
+        private static readonly IReadOnlyList<(int n, int k, int c)> expectedValues = new List<(int, int, int)>()
         {
             (0, 0, 1),
             (1, 0, 1),
@@ -92,9 +92,9 @@ namespace TestConsole
             Console.WriteLine("Validating {0} algorithm...", name);
             foreach (var item in expectedValues)
             {
-                int result = func(item.Item1, item.Item2);
-                Console.WriteLine("{0}, {1}, {2}, {3}", item.Item1, item.Item2, item.Item3, result);
-                if (result != item.Item3)
+                int c = func(item.n, item.k);
+                Console.WriteLine("{0}, {1}, {2}, {3}", item.n, item.k, item.c, c);
+                if (c != item.Item3)
                 {
                     Console.WriteLine("<FAIL>");
                     Console.WriteLine();
@@ -109,13 +109,36 @@ namespace TestConsole
 
         protected override void TestAlgorithms()
         {
-            for (int n = 0; n < 10; n++)
+            Test(BinomialCoefficient_Recursive);
+            Test(BinomialCoefficient_BottomUp);
+            Test(BinomialCoefficient_BottomUp_Optimized);
+        }
+
+        private void Test(Func<int, int, int> func)
+        {
+            double totalMs = 0;
+            int iterations = 10;
+
+            for (int i = 0; i < iterations; i++)
             {
-                for (int k = 0; k <= n; k++)
+                Console.WriteLine($"Iteration: {i}");
+                double ms = TestAlgorithm(() =>
                 {
-                    Console.WriteLine("{0}, {1}, {2}", n, k, BinomialCoefficient_BottomUp(n, k));
-                }
+                    for (int n = 0; n < 30; n++)
+                    {
+                        for (int k = 0; k <= n; k++)
+                        {
+                            func(n, k);
+                        }
+                    }
+                });
+
+                totalMs += ms;
+                Console.WriteLine($"Time: {ms} ms");
             }
+
+            double averageMs = totalMs / iterations;
+            Console.WriteLine($"Average Time: {averageMs} ms");
         }
     }
 }
