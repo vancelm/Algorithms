@@ -25,7 +25,7 @@ namespace Algorithms
 
             for (int i = 0; i <= n; i++)
             {
-                for (int j = 0; k <= Math.Min(i, k); j++)
+                for (int j = 0; j <= Math.Min(i, k); j++)
                 {
                     if (j == 0 || j == i)
                     {
