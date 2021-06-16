@@ -11,7 +11,7 @@ namespace TestConsole
     {
         private readonly Stopwatch stopwatch = new Stopwatch();
 
-        public void Test()
+        public void RunTest()
         {
             Console.WriteLine("Beginning test...");
             RunTests();
@@ -27,7 +27,7 @@ namespace TestConsole
             return stopwatch.Elapsed.TotalMilliseconds;
         }
 
-        public void Validate()
+        public void RunValidation()
         {
             Console.WriteLine("Validating...");
             bool isValid = ValidateAlgorithms();

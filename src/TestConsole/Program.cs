@@ -27,8 +27,8 @@ namespace TestConsole
                     return;
             }
 
-            test.Validate();
-            test.Test();
+            test.RunValidation();
+            test.RunTest();
         }
     }
 }
