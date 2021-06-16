@@ -2,7 +2,7 @@
 
 namespace Algorithms
 {
-    public static class BinomialCoefficent
+    public static class BinomialCoefficient
     {
         public static int BinomialCoefficient_Recursive(int n, int k)
         {
