@@ -11,7 +11,7 @@ namespace TestConsole
                 switch (args[0].Trim().ToLowerInvariant())
                 {
                     case "sorting":
-                        RunSortingTests();
+                        RunSortTests();
                         break;
                     case "binomial-coefficient":
                         RunBinomialCoefficientTests();
@@ -23,7 +23,7 @@ namespace TestConsole
             }
         }
 
-        private static void RunSortingTests()
+        private static void RunSortTests()
         {
 
         }
