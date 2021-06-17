@@ -116,20 +116,20 @@ namespace TestConsole
 
         private void Test(Func<int, int, int> func, string name)
         {
+            Console.WriteLine();
+            Console.WriteLine(name);
 
-            for (int i = 1; i <= 30; i++)
+            for (int i = 0; i <= 30; i++)
             {
-                double lowestMs = double.MaxValue;
-
-                Console.WriteLine();
-                Console.WriteLine(name);
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.Write($"{i, 3}");
+                Console.Write($"{i,3}");
                 Console.ForegroundColor = ConsoleColor.White;
+
+                double minDuration = double.MaxValue;
 
                 for (int j = 0; j < 10; j++)
                 {
-                    double ms = TestAlgorithm(() =>
+                    double duration = TestAlgorithm(() =>
                     {
                         for (int n = 0; n < i; n++)
                         {
@@ -140,16 +140,17 @@ namespace TestConsole
                         }
                     });
 
-                    Console.Write($", {ms, 12:0.0000}");
-                    if (lowestMs > ms)
+                    if (minDuration > duration)
                     {
-                        lowestMs = ms;
+                        minDuration = duration;
                     }
+
+                    Console.Write($", {duration, 12:0.0000}");
                 }
 
                 Console.Write(", ");
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"{lowestMs, 12:0.0000}");
+                Console.WriteLine($"{minDuration, 12:0.0000}");
                 Console.ForegroundColor = ConsoleColor.White;
             }
 
