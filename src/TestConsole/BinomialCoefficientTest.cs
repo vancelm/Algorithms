@@ -116,12 +116,11 @@ namespace TestConsole
 
         private void Test(Func<int, int, int> func)
         {
-            double totalMs = 0;
+            double lowestMs = double.MaxValue;
             int iterations = 10;
 
             for (int i = 0; i < iterations; i++)
             {
-                Console.WriteLine($"Iteration: {i}");
                 double ms = TestAlgorithm(() =>
                 {
                     for (int n = 0; n < 30; n++)
@@ -133,12 +132,14 @@ namespace TestConsole
                     }
                 });
 
-                totalMs += ms;
-                Console.WriteLine($"Time: {ms} ms");
+                Console.WriteLine($"{i + 1}, {ms} ms");
+                if (lowestMs > ms)
+                {
+                    lowestMs = ms;
+                }
             }
 
-            double averageMs = totalMs / iterations;
-            Console.WriteLine($"Average Time: {averageMs} ms");
+            Console.WriteLine($"Lowest Time: {lowestMs} ms");
         }
     }
 }
