@@ -4,7 +4,7 @@ namespace Algorithms
 {
     public static class BinomialCoefficient
     {
-        public static int BinomialCoefficient_Recursive(int n, int k)
+        public static int BinomialCoefficient_DivideAndConquer(int n, int k)
         {
             if (k > n)
             {
@@ -16,10 +16,10 @@ namespace Algorithms
                 return 1;
             }
 
-            return BinomialCoefficient_Recursive(n - 1, k - 1) + BinomialCoefficient_Recursive(n - 1, k);
+            return BinomialCoefficient_DivideAndConquer(n - 1, k - 1) + BinomialCoefficient_DivideAndConquer(n - 1, k);
         }
 
-        public static int BinomialCoefficient_BottomUp(int n, int k)
+        public static int BinomialCoefficient_Dynamic(int n, int k)
         {
             int[,] C = new int[n + 1, k + 1];
 
@@ -41,7 +41,7 @@ namespace Algorithms
             return C[n, k];
         }
 
-        public static int BinomialCoefficient_BottomUp_Optimized(int n, int k)
+        public static int BinomialCoefficient_Dynamic_Optimized(int n, int k)
         {
             int[] C = new int[k + 1];
             C[0] = 1;

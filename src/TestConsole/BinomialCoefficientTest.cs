@@ -69,17 +69,17 @@ namespace TestConsole
         {
             bool isValid = true;
 
-            if (!validateAlgorithm(BinomialCoefficient_Recursive, "Recursive"))
+            if (!validateAlgorithm(BinomialCoefficient_DivideAndConquer, "Divide and Conquer"))
             {
                 isValid = false;
             }
 
-            if (!validateAlgorithm(BinomialCoefficient_BottomUp, "Bottom-Up"))
+            if (!validateAlgorithm(BinomialCoefficient_Dynamic, "Dynamic"))
             {
                 isValid = false;
             }
 
-            if (!validateAlgorithm(BinomialCoefficient_BottomUp_Optimized, "Bottom-Up (Space Optimized)"))
+            if (!validateAlgorithm(BinomialCoefficient_Dynamic_Optimized, "Dynamic (Space Optimized)"))
             {
                 isValid = false;
             }
@@ -109,37 +109,51 @@ namespace TestConsole
 
         protected override void TestAlgorithms()
         {
-            Test(BinomialCoefficient_Recursive);
-            Test(BinomialCoefficient_BottomUp);
-            Test(BinomialCoefficient_BottomUp_Optimized);
+            Test(BinomialCoefficient_DivideAndConquer, "Divide and Conquer");
+            Test(BinomialCoefficient_Dynamic, "Dynamic");
+            Test(BinomialCoefficient_Dynamic_Optimized, "Dynamic (Space Optimized)");
         }
 
-        private void Test(Func<int, int, int> func)
+        private void Test(Func<int, int, int> func, string name)
         {
-            double lowestMs = double.MaxValue;
-            int iterations = 10;
 
-            for (int i = 0; i < iterations; i++)
+            for (int i = 1; i <= 30; i++)
             {
-                double ms = TestAlgorithm(() =>
-                {
-                    for (int n = 0; n < 30; n++)
-                    {
-                        for (int k = 0; k <= n; k++)
-                        {
-                            func(n, k);
-                        }
-                    }
-                });
+                double lowestMs = double.MaxValue;
 
-                Console.WriteLine($"{i + 1}, {ms} ms");
-                if (lowestMs > ms)
+                Console.WriteLine();
+                Console.WriteLine(name);
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write($"{i, 3}");
+                Console.ForegroundColor = ConsoleColor.White;
+
+                for (int j = 0; j < 10; j++)
                 {
-                    lowestMs = ms;
+                    double ms = TestAlgorithm(() =>
+                    {
+                        for (int n = 0; n < i; n++)
+                        {
+                            for (int k = 0; k <= n; k++)
+                            {
+                                func(n, k);
+                            }
+                        }
+                    });
+
+                    Console.Write($", {ms, 12:0.0000}");
+                    if (lowestMs > ms)
+                    {
+                        lowestMs = ms;
+                    }
                 }
+
+                Console.Write(", ");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"{lowestMs, 12:0.0000}");
+                Console.ForegroundColor = ConsoleColor.White;
             }
 
-            Console.WriteLine($"Lowest Time: {lowestMs} ms");
+            //Console.WriteLine($"Lowest Time: {lowestMs} ms");
         }
     }
 }
