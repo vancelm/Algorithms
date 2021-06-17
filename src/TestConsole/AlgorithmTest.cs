@@ -25,16 +25,20 @@ namespace TestConsole
 
         public void RunValidation()
         {
-            Console.WriteLine("--- Begin Validation ---");
+            Console.WriteLine("Validating...");
             bool isValid = ValidateAlgorithms();
 
             if (isValid)
             {
-                Console.WriteLine("--- Validation Passed ---");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Validation passed");
+                Console.ForegroundColor = ConsoleColor.White;
             }
             else
             {
-                Console.WriteLine("--- Validation failed ---");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Validation failed");
+                Console.ForegroundColor = ConsoleColor.White;
             }
 
             Console.WriteLine();
