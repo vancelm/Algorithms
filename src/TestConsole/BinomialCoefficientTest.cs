@@ -119,24 +119,21 @@ namespace TestConsole
             Console.WriteLine();
             Console.WriteLine(name);
 
-            for (int i = 0; i <= 30; i++)
+            for (int n = 0; n <= 30; n++)
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.Write($"{i,3}");
+                Console.Write($"{n,3}");
                 Console.ForegroundColor = ConsoleColor.White;
 
                 double minDuration = double.MaxValue;
 
-                for (int j = 0; j < 10; j++)
+                for (int i = 0; i < 10; i++)
                 {
                     double duration = TestAlgorithm(() =>
                     {
-                        for (int n = 0; n < i; n++)
+                        for (int k = 0; k <= n; k++)
                         {
-                            for (int k = 0; k <= n; k++)
-                            {
-                                func(n, k);
-                            }
+                            func(n, k);
                         }
                     });
 
