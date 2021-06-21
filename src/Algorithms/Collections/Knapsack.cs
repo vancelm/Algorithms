@@ -85,7 +85,9 @@ namespace Algorithms.Collections
 
         public void RemoveAt(int index)
         {
-            throw new System.NotImplementedException();
+            var item = _list[index];
+            _list.RemoveAt(index);
+            Weight -= item.Weight;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
