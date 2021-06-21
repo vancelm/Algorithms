@@ -49,7 +49,8 @@ namespace Algorithms.Collections
 
         public void Clear()
         {
-            throw new System.NotImplementedException();
+            _list.Clear();
+            Weight = 0;
         }
 
         public bool Contains((int Value, int Weight) item)
