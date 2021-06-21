@@ -59,10 +59,7 @@ namespace Algorithms.Collections
 
         public IEnumerator<(int Value, int Weight)> GetEnumerator() => _list.GetEnumerator();
 
-        public int IndexOf((int Value, int Weight) item)
-        {
-            throw new System.NotImplementedException();
-        }
+        public int IndexOf((int Value, int Weight) item) => _list.IndexOf(item);
 
         public void Insert(int index, (int Value, int Weight) item)
         {
