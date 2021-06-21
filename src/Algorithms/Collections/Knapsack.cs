@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Algorithms.Collections
@@ -15,7 +16,21 @@ namespace Algorithms.Collections
             Capacity = capacity;
         }
 
-        public (int Value, int Weight) this[int index] { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        public (int Value, int Weight) this[int index]
+        {
+            get => _list[index];
+            set
+            {
+                var oldItem = _list[index];
+                if (Weight - oldItem.Weight + value.Weight > Capacity)
+                {
+                    throw new InvalidOperationException("Replacing item would exceed weight capacity.");
+                }
+
+                _list[index] = value;
+                Weight = Weight - oldItem.Weight + value.Weight;
+            }
+        }
 
         public int Count => throw new System.NotImplementedException();
 
