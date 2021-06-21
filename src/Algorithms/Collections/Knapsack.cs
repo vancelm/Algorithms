@@ -53,10 +53,7 @@ namespace Algorithms.Collections
             Weight = 0;
         }
 
-        public bool Contains((int Value, int Weight) item)
-        {
-            throw new System.NotImplementedException();
-        }
+        public bool Contains((int Value, int Weight) item) => _list.Contains(item);
 
         public void CopyTo((int Value, int Weight)[] array, int arrayIndex)
         {
