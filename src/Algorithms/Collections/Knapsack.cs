@@ -5,6 +5,8 @@ namespace Algorithms.Collections
 {
     public class Knapsack : IList<(int Value, int Weight)>
     {
+        private List<(int Value, int Weight)> _list = new List<(int, int)>();
+
         public (int Value, int Weight) this[int index] { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
         public int Count => throw new System.NotImplementedException();
