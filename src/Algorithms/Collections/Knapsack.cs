@@ -21,6 +21,11 @@ namespace Algorithms.Collections
             get => _list[index];
             set
             {
+                if (value.Weight < 0)
+                {
+                    throw new ArgumentOutOfRangeException("Weight must be greater than or equal to zero.");
+                }
+
                 var oldItem = _list[index];
                 if (Weight - oldItem.Weight + value.Weight > Capacity)
                 {
@@ -38,6 +43,11 @@ namespace Algorithms.Collections
 
         public void Add((int Value, int Weight) item)
         {
+            if (item.Weight < 0)
+            {
+                throw new ArgumentOutOfRangeException("Weight must be greater than or equal to zero.");
+            }
+
             if (Weight + item.Weight > Capacity)
             {
                 throw new InvalidOperationException("Adding item would exceed weight capacity.");
@@ -63,6 +73,11 @@ namespace Algorithms.Collections
 
         public void Insert(int index, (int Value, int Weight) item)
         {
+            if (item.Weight < 0)
+            {
+                throw new ArgumentOutOfRangeException("Weight must be greater than or equal to zero.");
+            }
+
             if (Weight + item.Weight > Capacity)
             {
                 throw new InvalidOperationException("Inserting item would exceed weight capacity.");
@@ -91,5 +106,10 @@ namespace Algorithms.Collections
         }
 
         IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable)_list).GetEnumerator();
+
+        private static void CheckWeightRange(int weight)
+        {
+
+        }
     }
 }
