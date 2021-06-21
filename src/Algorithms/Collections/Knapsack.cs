@@ -63,7 +63,13 @@ namespace Algorithms.Collections
 
         public void Insert(int index, (int Value, int Weight) item)
         {
-            throw new System.NotImplementedException();
+            if (Weight + item.Weight > Capacity)
+            {
+                throw new InvalidOperationException("Inserting item would exceed weight capacity.");
+            }
+
+            _list.Insert(index, item);
+            Weight += item.Weight;
         }
 
         public bool Remove((int Value, int Weight) item)
