@@ -57,10 +57,7 @@ namespace Algorithms.Collections
 
         public void CopyTo((int Value, int Weight)[] array, int arrayIndex) => _list.CopyTo(array, arrayIndex);
 
-        public IEnumerator<(int Value, int Weight)> GetEnumerator()
-        {
-            throw new System.NotImplementedException();
-        }
+        public IEnumerator<(int Value, int Weight)> GetEnumerator() => _list.GetEnumerator();
 
         public int IndexOf((int Value, int Weight) item)
         {
