@@ -90,9 +90,6 @@ namespace Algorithms.Collections
             Weight -= item.Weight;
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            throw new System.NotImplementedException();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable)_list).GetEnumerator();
     }
 }
