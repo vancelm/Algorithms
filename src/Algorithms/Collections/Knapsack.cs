@@ -32,9 +32,9 @@ namespace Algorithms.Collections
             }
         }
 
-        public int Count => throw new System.NotImplementedException();
+        public int Count => _list.Count;
 
-        public bool IsReadOnly => throw new System.NotImplementedException();
+        bool ICollection<(int Value, int Weight)>.IsReadOnly => false;
 
         public void Add((int Value, int Weight) item)
         {
