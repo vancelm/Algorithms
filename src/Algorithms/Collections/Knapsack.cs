@@ -74,7 +74,13 @@ namespace Algorithms.Collections
 
         public bool Remove((int Value, int Weight) item)
         {
-            throw new System.NotImplementedException();
+            bool isRemoved = _list.Remove(item);
+            if (isRemoved)
+            {
+                Weight -= item.Weight;
+            }
+
+            return isRemoved;
         }
 
         public void RemoveAt(int index)
