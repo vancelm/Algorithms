@@ -55,10 +55,7 @@ namespace Algorithms.Collections
 
         public bool Contains((int Value, int Weight) item) => _list.Contains(item);
 
-        public void CopyTo((int Value, int Weight)[] array, int arrayIndex)
-        {
-            throw new System.NotImplementedException();
-        }
+        public void CopyTo((int Value, int Weight)[] array, int arrayIndex) => _list.CopyTo(array, arrayIndex);
 
         public IEnumerator<(int Value, int Weight)> GetEnumerator()
         {
