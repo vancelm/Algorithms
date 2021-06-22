@@ -40,6 +40,11 @@ namespace Algorithms.Collections
             Capacity = capacity;
         }
 
+        /// <summary>
+        /// Gets or sets the element at the specified index.
+        /// </summary>
+        /// <param name="index">The zero-based index of the element to get or set.</param>
+        /// <returns>The element at the specified index.</returns>
         public (int Value, int Weight) this[int index]
         {
             get => _list[index];
@@ -62,10 +67,17 @@ namespace Algorithms.Collections
             }
         }
 
+        /// <summary>
+        /// Gets the number of elements contained in the <see cref="Knapsack"/>.
+        /// </summary>
         public int Count => _list.Count;
 
         bool ICollection<(int Value, int Weight)>.IsReadOnly => false;
 
+        /// <summary>
+        /// Adds an element to the end of the <see cref="Knapsack"/>.
+        /// </summary>
+        /// <param name="item">The element to add to the end of the <see cref="Knapsack"/></param>
         public void Add((int Value, int Weight) item)
         {
             if (item.Weight < 0)
@@ -83,6 +95,9 @@ namespace Algorithms.Collections
             Value += item.Value;
         }
 
+        /// <summary>
+        /// Removes all elements from the <see cref="Knapsack"/>
+        /// </summary>
         public void Clear()
         {
             _list.Clear();
