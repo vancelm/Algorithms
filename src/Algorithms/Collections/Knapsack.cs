@@ -4,14 +4,32 @@ using System.Collections.Generic;
 
 namespace Algorithms.Collections
 {
+    /// <summary>
+    /// Represents a collection, with a fixed weight capacity, for storing items with value and weight.
+    /// </summary>
     public class Knapsack : IList<(int Value, int Weight)>
     {
         private List<(int Value, int Weight)> _list = new List<(int, int)>();
 
+        /// <summary>
+        /// Gets the maximum weight capacity of this knapsack.
+        /// </summary>
         public int Capacity { get; }
+
+        /// <summary>
+        /// Gets the current weight of all items in this knapsack.
+        /// </summary>
         public int Weight { get; private set; }
+
+        /// <summary>
+        /// Gets the current value of all items in this knapsack.
+        /// </summary>
         public int Value { get; private set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Knapsack"/> that is empty and has the specified weight capacity.
+        /// </summary>
+        /// <param name="capacity">The maximum weight allowed for all items combined.</param>
         public Knapsack(int capacity)
         {
             Capacity = capacity;
