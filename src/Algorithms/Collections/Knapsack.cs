@@ -106,10 +106,5 @@ namespace Algorithms.Collections
         }
 
         IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable)_list).GetEnumerator();
-
-        private static void CheckWeightRange(int weight)
-        {
-
-        }
     }
 }
