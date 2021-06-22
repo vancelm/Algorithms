@@ -32,6 +32,11 @@ namespace Algorithms.Collections
         /// <param name="capacity">The maximum weight allowed for all items combined.</param>
         public Knapsack(int capacity)
         {
+            if (capacity < 0)
+            {
+                throw new ArgumentOutOfRangeException("Capacity must be greater than or equal to zero.");
+            }
+
             Capacity = capacity;
         }
 
