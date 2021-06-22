@@ -10,6 +10,7 @@ namespace Algorithms.Collections
 
         public int Capacity { get; }
         public int Weight { get; private set; }
+        public int Value { get; private set; }
 
         public Knapsack(int capacity)
         {
@@ -34,6 +35,7 @@ namespace Algorithms.Collections
 
                 _list[index] = value;
                 Weight = Weight - oldItem.Weight + value.Weight;
+                Value = Value - oldItem.Value + value.Value;
             }
         }
 
@@ -55,12 +57,14 @@ namespace Algorithms.Collections
 
             _list.Add(item);
             Weight += item.Weight;
+            Value += item.Value;
         }
 
         public void Clear()
         {
             _list.Clear();
             Weight = 0;
+            Value = 0;
         }
 
         public bool Contains((int Value, int Weight) item) => _list.Contains(item);
@@ -85,6 +89,7 @@ namespace Algorithms.Collections
 
             _list.Insert(index, item);
             Weight += item.Weight;
+            Value += item.Value;
         }
 
         public bool Remove((int Value, int Weight) item)
@@ -103,6 +108,7 @@ namespace Algorithms.Collections
             var item = _list[index];
             _list.RemoveAt(index);
             Weight -= item.Weight;
+            Value -= item.Value;
         }
 
         IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable)_list).GetEnumerator();
