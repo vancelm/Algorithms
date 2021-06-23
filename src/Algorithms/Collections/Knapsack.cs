@@ -9,7 +9,7 @@ namespace Algorithms.Collections
     /// </summary>
     public class Knapsack : IList<(int Value, int Weight)>
     {
-        private List<(int Value, int Weight)> _list = new List<(int, int)>();
+        private readonly List<(int Value, int Weight)> _list = new();
 
         /// <summary>
         /// Gets the maximum weight capacity of this knapsack.
