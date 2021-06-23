@@ -52,7 +52,7 @@ namespace Algorithms.Collections
             {
                 if (value.Weight < 0)
                 {
-                    throw new ArgumentOutOfRangeException("Weight must be greater than or equal to zero.");
+                    throw new ArgumentOutOfRangeException(nameof(value.Weight), "Weight must be greater than or equal to zero.");
                 }
 
                 var oldItem = _list[index];
@@ -82,7 +82,7 @@ namespace Algorithms.Collections
         {
             if (item.Weight < 0)
             {
-                throw new ArgumentOutOfRangeException("Weight must be greater than or equal to zero.");
+                throw new ArgumentOutOfRangeException(nameof(item.Weight), "Weight must be greater than or equal to zero.");
             }
 
             if (Weight + item.Weight > Capacity)
@@ -117,7 +117,7 @@ namespace Algorithms.Collections
         {
             if (item.Weight < 0)
             {
-                throw new ArgumentOutOfRangeException("Weight must be greater than or equal to zero.");
+                throw new ArgumentOutOfRangeException(nameof(item.Weight), "Weight must be greater than or equal to zero.");
             }
 
             if (Weight + item.Weight > Capacity)
