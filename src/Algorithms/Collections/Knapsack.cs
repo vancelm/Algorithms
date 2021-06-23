@@ -34,7 +34,7 @@ namespace Algorithms.Collections
         {
             if (capacity < 0)
             {
-                throw new ArgumentOutOfRangeException("Capacity must be greater than or equal to zero.");
+                throw new ArgumentOutOfRangeException(nameof(capacity), "Capacity must be greater than or equal to zero.");
             }
 
             Capacity = capacity;
