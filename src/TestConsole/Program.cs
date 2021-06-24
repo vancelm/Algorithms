@@ -22,6 +22,9 @@ namespace TestConsole
                 case "binomial-coefficient":
                     test = new BinomialCoefficientTest();
                     break;
+                case "knapsack":
+                    test = new KnapsackTest();
+                    break;
                 default:
                     Console.WriteLine("Unknown test specified.");
                     return;
