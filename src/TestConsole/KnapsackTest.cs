@@ -65,22 +65,68 @@ namespace TestConsole
 
         protected override void TestAlgorithms()
         {
-            int count = 100000;
-            List<(int Value, int Weight)> items = new(count);
+            Console.WriteLine("Test 1...");
+            Test(100, 10000, 100, 1000, 1000, 1);
+            Console.WriteLine();
+            Console.WriteLine("Test 2...");
+            Test(1000, 1000, 1, 100, 10000, 100);
+        }
+
+        private void Test(int countMin, int countMax, int countIncrement, int capacityMin, int capacityMax, int capacityIncrement)
+        {
+            Console.WriteLine("   Count, Capacity, Dynamic Time, Dynamic Max, Greedy Time, Greedy Max, Greedy % Optimal");
+            for (int count = countMin; count <= countMax; count += countIncrement)
+            {
+                for (int capacity = capacityMin; capacity <= capacityMax; capacity += capacityIncrement)
+                {
+                    List<(int, int)> items = GetRandomItems(0, capacity, 0, capacity, count);
+                    double dynamicDuration = double.MaxValue;
+                    double dynamicValue = 0;
+                    double greedyDuration = double.MaxValue;
+                    double greedyValue = 0;
+
+                    for (int k = 0; k < 10; k++)
+                    {
+                        dynamicDuration = Math.Min(dynamicDuration,
+                            TestAlgorithm(() =>
+                            {
+                                dynamicValue = GetMaxValue_Dynamic(capacity, items);
+                            }));
+                        greedyDuration = Math.Min(greedyDuration,
+                            TestAlgorithm(() =>
+                            {
+                                greedyValue = GetMaxValue_Greedy(capacity, items);
+                            }));
+                    }
+                    double valueDifference = greedyValue / dynamicValue;
+
+                    Console.Write($"{count,8},{capacity, 9},");
+                    Console.Write($"{dynamicDuration, 13:0.0000}," +
+                        $"{dynamicValue, 12}," +
+                        $"{greedyDuration, 12:0.0000}," +
+                        $"{greedyValue, 11},");
+                    if (valueDifference == 1)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                    }
+                    Console.WriteLine($"{valueDifference * 100, 16:###.00}%");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+            }
+        }
+
+        private static List<(int Value, int Weight)> GetRandomItems(int minValue, int maxValue, int minWeight, int maxWeight, int count)
+        {
+            List<(int, int)> items = new(count);
             for (int i = 0; i < count; i++)
             {
-                items.Add((random.Next(1, 100), random.Next(1, 100)));
+                items.Add((random.Next(minValue, maxValue), random.Next(minWeight, maxWeight)));
             }
-
-            int capacity = 1000;
-            double value = 0;
-            double duration;
-            //duration = TestAlgorithm(() => { value = GetMaxValue_BruteForce(capacity, items); });
-            //Console.WriteLine($"Duration: {duration} ms, Value: {value}");
-            duration = TestAlgorithm(() => { value = GetMaxValue_Dynamic(capacity, items); });
-            Console.WriteLine($"Duration: {duration} ms, Value: {value}");
-            duration = TestAlgorithm(() => { value = GetMaxValue_Greedy(capacity, items); });
-            Console.WriteLine($"Duration: {duration} ms, Value: {value}");
+            return items;
         }
     }
 }
