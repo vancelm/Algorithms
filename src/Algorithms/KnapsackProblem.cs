@@ -33,7 +33,11 @@ namespace Algorithms
         public static int GetMaxValue_Dynamic(int capacity, List<(int Value, int Weight)> items)
         {
             int i, w;
-            int[,] K = new int[items.Count + 1, capacity + 1];
+            int[][] K = new int[items.Count + 1][];
+            for (i = 0; i < K.Length; i++)
+            {
+                K[i] = new int[capacity + 1];
+            }
 
             for (i = 0; i <= items.Count; i++)
             {
@@ -41,21 +45,21 @@ namespace Algorithms
                 {
                     if (i == 0 || w == 0)
                     {
-                        K[i, w] = 0;
+                        K[i][w] = 0;
                     }
                     else if (items[i - 1].Weight <= w)
                     {
-                        K[i, w] = Math.Max(items[i - 1].Value + K[i - 1, w - items[i - 1].Weight],
-                            K[i - 1, w]);
+                        K[i][w] = Math.Max(items[i - 1].Value + K[i - 1][w - items[i - 1].Weight],
+                            K[i - 1][w]);
                     }
                     else
                     {
-                        K[i, w] = K[i - 1, w];
+                        K[i][w] = K[i - 1][w];
                     }
                 }
             }
 
-            return K[items.Count, capacity];
+            return K[items.Count][capacity];
         }
 
         public static int GetMaxValue_Greedy(int capacity, List<(int Value, int Weight)> items)
