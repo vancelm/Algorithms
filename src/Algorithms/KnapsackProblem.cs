@@ -81,6 +81,7 @@ namespace Algorithms
 
         public static int GetMaxValue_Backtracking(int capacity, List<KnapsackItem> items)
         {
+            var sortedItems = items.OrderByDescending(i => i.ValuePerWeight).ToList();
             bool[] include = new bool[items.Count];
             int maxProfit = 0;
             Backtracking_Recursive(capacity, items, 0, 0, 0, ref maxProfit, include);
