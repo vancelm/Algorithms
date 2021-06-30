@@ -84,7 +84,7 @@ namespace Algorithms
             var sortedItems = items.OrderByDescending(i => i.ValuePerWeight).ToList();
             bool[] include = new bool[items.Count];
             int maxProfit = 0;
-            Backtracking_Recursive(capacity, items, -1, 0, 0, ref maxProfit, include);
+            Backtracking_Recursive(capacity, sortedItems, -1, 0, 0, ref maxProfit, include);
 
             return maxProfit;
         }
