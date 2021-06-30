@@ -7,12 +7,12 @@ namespace Algorithms
 {
     public static class KnapsackProblem
     {
-        public static int GetMaxValue_BruteForce(int capacity, List<(int Value, int Weight)> items)
+        public static int GetMaxValue_BruteForce(int capacity, List<KnapsackItem> items)
         {
             return GetMaxValue_Recursive(capacity, items, items.Count);
         }
 
-        static int GetMaxValue_Recursive(int capacity, List<(int Value, int Weight)> items, int n)
+        static int GetMaxValue_Recursive(int capacity, List<KnapsackItem> items, int n)
         {
             if (n == 0 || capacity == 0)
             {
@@ -30,7 +30,7 @@ namespace Algorithms
             }
         }
 
-        public static int GetMaxValue_Dynamic(int capacity, List<(int Value, int Weight)> items)
+        public static int GetMaxValue_Dynamic(int capacity, List<KnapsackItem> items)
         {
             int i, w;
             int[][] K = new int[items.Count + 1][];
@@ -62,12 +62,12 @@ namespace Algorithms
             return K[items.Count][capacity];
         }
 
-        public static int GetMaxValue_Greedy(int capacity, List<(int Value, int Weight)> items)
+        public static int GetMaxValue_Greedy(int capacity, List<KnapsackItem> items)
         {
             int value = 0;
             int weight = 0;
 
-            foreach(var item in items.OrderByDescending(i => (double)i.Value / i.Weight))
+            foreach(var item in items.OrderByDescending(i => i.ValuePerWeight))
             {
                 if (weight + item.Weight < capacity)
                 {

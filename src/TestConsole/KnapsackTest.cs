@@ -1,6 +1,7 @@
 ﻿using static Algorithms.KnapsackProblem;
 using System;
 using System.Collections.Generic;
+using Algorithms;
 
 namespace TestConsole
 {
@@ -9,18 +10,18 @@ namespace TestConsole
         private static readonly Random random = new();
         private static readonly int validationValue = 217;
         private static readonly int validationCapacity = 100;
-        private static readonly List<(int Value, int Weight)> validationList = new()
+        private static readonly List<KnapsackItem> validationList = new()
         {
-            (43, 38),
-            (49, 29),
-            (57, 31),
-            (60, 53),
-            (67, 63),
-            (68, 44),
-            (72, 82),
-            (84, 85),
-            (87, 89),
-            (92, 23),
+            new(43, 38),
+            new(49, 29),
+            new(57, 31),
+            new(60, 53),
+            new(67, 63),
+            new(68, 44),
+            new(72, 82),
+            new(84, 85),
+            new(87, 89),
+            new(92, 23),
         };
 
         protected override bool ValidateAlgorithms()
@@ -44,7 +45,7 @@ namespace TestConsole
             return isValid;
         }
 
-        private bool ValidateAlgorithm(Func<int, List<(int Value, int Weight)>, int> func, string name)
+        private bool ValidateAlgorithm(Func<int, List<KnapsackItem>, int> func, string name)
         {
             Console.WriteLine($"Validating {name} algorithm...");
             int value = func(validationCapacity, validationList);
@@ -79,7 +80,7 @@ namespace TestConsole
             {
                 for (int capacity = capacityMin; capacity <= capacityMax; capacity += capacityIncrement)
                 {
-                    List<(int, int)> items = GetRandomItems(0, capacity, 0, capacity, count);
+                    List<KnapsackItem> items = GetRandomItems(0, capacity, 0, capacity, count);
                     double dynamicDuration = double.MaxValue;
                     double dynamicValue = 0;
                     double greedyDuration = double.MaxValue;
@@ -119,12 +120,12 @@ namespace TestConsole
             }
         }
 
-        private static List<(int Value, int Weight)> GetRandomItems(int minValue, int maxValue, int minWeight, int maxWeight, int count)
+        private static List<KnapsackItem> GetRandomItems(int minValue, int maxValue, int minWeight, int maxWeight, int count)
         {
-            List<(int, int)> items = new(count);
+            List<KnapsackItem> items = new(count);
             for (int i = 0; i < count; i++)
             {
-                items.Add((random.Next(minValue, maxValue), random.Next(minWeight, maxWeight)));
+                items.Add(new(random.Next(minValue, maxValue), random.Next(minWeight, maxWeight)));
             }
             return items;
         }
