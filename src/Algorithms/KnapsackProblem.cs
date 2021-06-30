@@ -84,7 +84,7 @@ namespace Algorithms
             var sortedItems = items.OrderByDescending(i => i.ValuePerWeight).ToList();
             bool[] include = new bool[items.Count];
             int maxProfit = 0;
-            Backtracking_Recursive(capacity, items, 0, 0, 0, ref maxProfit, include);
+            Backtracking_Recursive(capacity, items, -1, 0, 0, ref maxProfit, include);
 
             return maxProfit;
         }
@@ -120,14 +120,14 @@ namespace Algorithms
                 j = i + 1;
                 bound = value;
                 totalWeight = weight;
-                while (j <= items.Count && totalWeight + items[j].Weight <= capacity)
+                while (j < items.Count && totalWeight + items[j].Weight <= capacity)
                 {
                     totalWeight += items[j].Weight;
                     bound += items[j].Value;
                     j++;
                 }
 
-                if (j <= items.Count)
+                if (j < items.Count)
                 {
                     bound += (capacity - totalWeight) * items[j].ValuePerWeight;
                 }
