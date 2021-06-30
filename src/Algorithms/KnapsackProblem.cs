@@ -78,5 +78,65 @@ namespace Algorithms
 
             return value;
         }
+
+        public static int GetMaxValue_Backtracking(int capacity, List<KnapsackItem> items)
+        {
+            bool[] include = new bool[items.Count];
+            bool[] bestSet = null;
+            int numBest = 0;
+            int maxProfit = 0;
+            Backtracking_Recursive(capacity, items, 0, 0, 0, ref numBest, ref maxProfit, include, ref bestSet);
+
+            return maxProfit;
+        }
+
+        public static void Backtracking_Recursive(int capacity, List<KnapsackItem> items, int i, int value, int weight, ref int numBest, ref int maxValue, bool[] include, ref bool[] bestSet)
+        {
+            if (weight <= capacity && value > maxValue)
+            {
+                maxValue = value;
+                numBest = i;
+                bestSet = include;
+            }
+
+            if (Promising(capacity, items, i, value, weight, maxValue))
+            {
+                include[i + 1] = true;
+                Backtracking_Recursive(capacity, items, i + 1, value + items[i + 1].Value, weight + items[i + 1].Weight, ref numBest, ref maxValue, include, ref bestSet);
+                include[i + 1] = false;
+                Backtracking_Recursive(capacity, items, i + 1, value, weight, ref numBest, ref maxValue, include, ref bestSet);
+            }
+        }
+
+        private static bool Promising(int capacity, List<KnapsackItem> items, int i, int value, int weight, int maxValue)
+        {
+            int j;
+            int totalWeight;
+            double bound;
+
+            if (weight >= capacity)
+            {
+                return false;
+            }
+            else
+            {
+                j = i + 1;
+                bound = value;
+                totalWeight = weight;
+                while (j <= items.Count && totalWeight + items[j].Weight <= capacity)
+                {
+                    totalWeight += items[j].Weight;
+                    bound += items[j].Value;
+                    j++;
+                }
+
+                if (j <= items.Count)
+                {
+                    bound += (capacity - totalWeight) * items[j].ValuePerWeight;
+                }
+
+                return bound > maxValue;
+            }
+        }
     }
 }
