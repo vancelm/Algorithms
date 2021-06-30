@@ -7,9 +7,9 @@ namespace Algorithms.Collections
     /// <summary>
     /// Represents a collection, with a fixed weight capacity, for storing items with value and weight.
     /// </summary>
-    public class Knapsack : IList<(int Value, int Weight)>
+    public class Knapsack : IList<KnapsackItem>
     {
-        private readonly List<(int Value, int Weight)> _list = new();
+        private readonly List<KnapsackItem> _list = new();
 
         /// <summary>
         /// Gets the maximum weight capacity of this knapsack.
@@ -45,7 +45,7 @@ namespace Algorithms.Collections
         /// </summary>
         /// <param name="index">The zero-based index of the element to get or set.</param>
         /// <returns>The element at the specified index.</returns>
-        public (int Value, int Weight) this[int index]
+        public KnapsackItem this[int index]
         {
             get => _list[index];
             set
@@ -72,13 +72,13 @@ namespace Algorithms.Collections
         /// </summary>
         public int Count => _list.Count;
 
-        bool ICollection<(int Value, int Weight)>.IsReadOnly => false;
+        bool ICollection<KnapsackItem>.IsReadOnly => false;
 
         /// <summary>
         /// Adds an element to the end of the <see cref="Knapsack"/>.
         /// </summary>
         /// <param name="item">The element to add to the end of the <see cref="Knapsack"/></param>
-        public void Add((int Value, int Weight) item)
+        public void Add(KnapsackItem item)
         {
             if (item.Weight < 0)
             {
@@ -105,15 +105,15 @@ namespace Algorithms.Collections
             Value = 0;
         }
 
-        public bool Contains((int Value, int Weight) item) => _list.Contains(item);
+        public bool Contains(KnapsackItem item) => _list.Contains(item);
 
-        public void CopyTo((int Value, int Weight)[] array, int arrayIndex) => _list.CopyTo(array, arrayIndex);
+        public void CopyTo(KnapsackItem[] array, int arrayIndex) => _list.CopyTo(array, arrayIndex);
 
-        public IEnumerator<(int Value, int Weight)> GetEnumerator() => _list.GetEnumerator();
+        public IEnumerator<KnapsackItem> GetEnumerator() => _list.GetEnumerator();
 
-        public int IndexOf((int Value, int Weight) item) => _list.IndexOf(item);
+        public int IndexOf(KnapsackItem item) => _list.IndexOf(item);
 
-        public void Insert(int index, (int Value, int Weight) item)
+        public void Insert(int index, KnapsackItem item)
         {
             if (item.Weight < 0)
             {
@@ -130,7 +130,7 @@ namespace Algorithms.Collections
             Value += item.Value;
         }
 
-        public bool Remove((int Value, int Weight) item)
+        public bool Remove(KnapsackItem item)
         {
             bool isRemoved = _list.Remove(item);
             if (isRemoved)
