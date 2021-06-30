@@ -4,13 +4,13 @@
     {
         public readonly int Value;
         public readonly int Weight;
-        public readonly int Profit;
+        public readonly double ValuePerWeight;
 
         public KnapsackItem(int value, int weight)
         {
             Value = value;
             Weight = weight;
-            Profit = value / weight;
+            ValuePerWeight = value / weight;
         }
     }
 }
