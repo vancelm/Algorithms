@@ -10,7 +10,7 @@
         {
             Value = value;
             Weight = weight;
-            ValuePerWeight = value / weight;
+            ValuePerWeight = (double)value / weight;
         }
     }
 }
