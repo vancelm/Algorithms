@@ -5,7 +5,7 @@ namespace TestConsole
 {
     internal abstract class AlgorithmTest
     {
-        private readonly Stopwatch stopwatch = new Stopwatch();
+        private static readonly Stopwatch stopwatch = new Stopwatch();
 
         public void RunTest()
         {
