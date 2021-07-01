@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Algorithms;
+using System.Threading.Tasks;
 
 namespace TestConsole
 {
@@ -33,6 +34,11 @@ namespace TestConsole
             }
 
             if (!ValidateAlgorithm(GetMaxValue_Dynamic, "Dynamic"))
+            {
+                isValid = false;
+            }
+
+            if (!ValidateAlgorithm(GetMaxValue_Backtracking, "Backtracking"))
             {
                 isValid = false;
             }
@@ -75,7 +81,7 @@ namespace TestConsole
 
         private void Test(int countMin, int countMax, int countIncrement, int capacityMin, int capacityMax, int capacityIncrement)
         {
-            Console.WriteLine("   Count, Capacity, Dynamic Time, Dynamic Max, Greedy Time, Greedy Max, Greedy % Optimal");
+            Console.WriteLine("   Count, Capacity, Dynamic Time, Backtracking Time, Greedy Time, Greedy % Optimal");
             for (int count = countMin; count <= countMax; count += countIncrement)
             {
                 for (int capacity = capacityMin; capacity <= capacityMax; capacity += capacityIncrement)
@@ -83,6 +89,8 @@ namespace TestConsole
                     List<KnapsackItem> items = GetRandomItems(0, capacity, 0, capacity, count);
                     double dynamicDuration = double.MaxValue;
                     double dynamicValue = 0;
+                    double backtrackingDuration = double.MaxValue;
+                    double backtrackingValue = 0;
                     double greedyDuration = double.MaxValue;
                     double greedyValue = 0;
 
@@ -92,6 +100,11 @@ namespace TestConsole
                             TestAlgorithm(() =>
                             {
                                 dynamicValue = GetMaxValue_Dynamic(capacity, items);
+                            }));
+                        backtrackingDuration = Math.Min(backtrackingDuration,
+                            TestAlgorithm(() =>
+                            {
+                                backtrackingValue = GetMaxValue_Backtracking(capacity, items);
                             }));
                         greedyDuration = Math.Min(greedyDuration,
                             TestAlgorithm(() =>
@@ -103,9 +116,8 @@ namespace TestConsole
 
                     Console.Write($"{count,8},{capacity, 9},");
                     Console.Write($"{dynamicDuration, 13:0.0000}," +
-                        $"{dynamicValue, 12}," +
-                        $"{greedyDuration, 12:0.0000}," +
-                        $"{greedyValue, 11},");
+                        $"{backtrackingDuration, 18:0.0000}," +
+                        $"{greedyDuration, 12:0.0000},");
                     if (valueDifference == 1)
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
