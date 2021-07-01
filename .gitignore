@@ -348,3 +348,7 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+# Ignoring since it's only currently used for passing argument during debugging
+# in order to debug specific tests for the current week's assignment.
+/src/TestConsole/Properties/launchSettings.json
