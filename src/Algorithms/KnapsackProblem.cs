@@ -9,10 +9,10 @@ namespace Algorithms
     {
         public static int GetMaxValue_BruteForce(int capacity, List<KnapsackItem> items)
         {
-            return GetMaxValue_Recursive(capacity, items, items.Count);
+            return BruteForce_Recursive(capacity, items, items.Count);
         }
 
-        static int GetMaxValue_Recursive(int capacity, List<KnapsackItem> items, int n)
+        private static int BruteForce_Recursive(int capacity, List<KnapsackItem> items, int n)
         {
             if (n == 0 || capacity == 0)
             {
@@ -21,12 +21,12 @@ namespace Algorithms
 
             if (items[n - 1].Weight > capacity)
             {
-                return GetMaxValue_Recursive(capacity, items, n - 1);
+                return BruteForce_Recursive(capacity, items, n - 1);
             }
             else
             {
-                return Math.Max(items[n - 1].Value + GetMaxValue_Recursive(capacity - items[n - 1].Weight, items, n - 1),
-                    GetMaxValue_Recursive(capacity, items, n - 1));
+                return Math.Max(items[n - 1].Value + BruteForce_Recursive(capacity - items[n - 1].Weight, items, n - 1),
+                    BruteForce_Recursive(capacity, items, n - 1));
             }
         }
 
@@ -89,14 +89,14 @@ namespace Algorithms
             return maxProfit;
         }
 
-        public static void Backtracking_Recursive(int capacity, List<KnapsackItem> items, int i, int value, int weight, ref int maxValue, bool[] include)
+        private static void Backtracking_Recursive(int capacity, List<KnapsackItem> items, int i, int value, int weight, ref int maxValue, bool[] include)
         {
             if (weight <= capacity && value > maxValue)
             {
                 maxValue = value;
             }
 
-            if (Promising(capacity, items, i, value, weight, maxValue))
+            if (Backtracking_Promising(capacity, items, i, value, weight, maxValue))
             {
                 include[i + 1] = true;
                 Backtracking_Recursive(capacity, items, i + 1, value + items[i + 1].Value, weight + items[i + 1].Weight, ref maxValue, include);
@@ -105,7 +105,7 @@ namespace Algorithms
             }
         }
 
-        private static bool Promising(int capacity, List<KnapsackItem> items, int i, int value, int weight, int maxValue)
+        private static bool Backtracking_Promising(int capacity, List<KnapsackItem> items, int i, int value, int weight, int maxValue)
         {
             int j;
             int totalWeight;
