@@ -73,20 +73,58 @@ namespace TestConsole
         protected override void TestAlgorithms()
         {
             Console.WriteLine("Test 1...");
+            Console.WriteLine("   Count, Capacity, Dynamic Time, Backtracking Time, Greedy Time, Greedy % Optimal");
             Test(100, 10000, 100, 1000, 1000, 1);
+
             Console.WriteLine();
             Console.WriteLine("Test 2...");
+            Console.WriteLine("   Count, Capacity, Dynamic Time, Backtracking Time, Greedy Time, Greedy % Optimal");
             Test(1000, 1000, 1, 100, 10000, 100);
+
+            Console.WriteLine();
+            Console.WriteLine("Test 3...");
+            Console.WriteLine("   Count, Capacity, Value Range, Weight Range, Dynamic Time, Backtracking Time, Greedy Time, Greedy % Optimal");
+            int min = 0;
+            int max = 1000;
+            while (min < max)
+            {
+                Test(1000, 1000, 1, 1000, 1000, 1, min, max, 0, 1000);
+                min += 10;
+                max -= 10;
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("Test 4...");
+            Console.WriteLine("   Count, Capacity, Value Range, Weight Range, Dynamic Time, Backtracking Time, Greedy Time, Greedy % Optimal");
+            min = 0;
+            max = 1000;
+            while (min < max)
+            {
+                Test(1000, 1000, 1, 1000, 1000, 1, 0, 1000, min, max);
+                min += 10;
+                max -= 10;
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("Test 5...");
+            Console.WriteLine("   Count, Capacity, Value Range, Weight Range, Dynamic Time, Backtracking Time, Greedy Time, Greedy % Optimal");
+            min = 0;
+            max = 1000;
+            while (min < max)
+            {
+                Test(1000, 1000, 1, 1000, 1000, 1, min, max, min, max);
+                min += 10;
+                max -= 10;
+            }
         }
 
-        private void Test(int countMin, int countMax, int countIncrement, int capacityMin, int capacityMax, int capacityIncrement)
+        private void Test(int countMin, int countMax, int countIncrement, int capacityMin, int capacityMax, int capacityIncrement, int valueMin = 0, int valueMax = 1000, int weightMin = 0, int weightMax = 1000)
         {
-            Console.WriteLine("   Count, Capacity, Dynamic Time, Backtracking Time, Greedy Time, Greedy % Optimal");
             for (int count = countMin; count <= countMax; count += countIncrement)
             {
                 for (int capacity = capacityMin; capacity <= capacityMax; capacity += capacityIncrement)
                 {
-                    List<KnapsackItem> items = GetRandomItems(0, capacity, 0, capacity, count);
+                    List<KnapsackItem> items = GetRandomItems(weightMin, weightMax, valueMin, valueMax, count);
                     double dynamicDuration = double.MaxValue;
                     double dynamicValue = 0;
                     double backtrackingDuration = double.MaxValue;
@@ -114,7 +152,7 @@ namespace TestConsole
                     }
                     double valueDifference = greedyValue / dynamicValue;
 
-                    Console.Write($"{count,8},{capacity, 9},");
+                    Console.Write($"{count,8},{capacity, 9},{valueMax - valueMin, 12},{weightMax - weightMin, 13},");
                     Console.Write($"{dynamicDuration, 13:0.0000}," +
                         $"{backtrackingDuration, 18:0.0000}," +
                         $"{greedyDuration, 12:0.0000},");
