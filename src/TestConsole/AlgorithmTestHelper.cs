@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace TestConsole
 {
-    internal static class AlgorithmTest
+    internal static class AlgorithmTestHelper
     {
         private static readonly Stopwatch stopwatch = new Stopwatch();
 
