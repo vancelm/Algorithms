@@ -27,33 +27,11 @@ namespace TestConsole
 
         private static void Validate()
         {
-            bool isValid = true;
-            if (!ValidateAlgorithm(GetMaxValue_BruteForce, "Brute Force"))
-            {
-                isValid = false;
-            }
-
-            if (!ValidateAlgorithm(GetMaxValue_Dynamic, "Dynamic"))
-            {
-                isValid = false;
-            }
-
-            if (!ValidateAlgorithm(GetMaxValue_Backtracking, "Backtracking"))
-            {
-                isValid = false;
-            }
-
-            if (!ValidateAlgorithm(GetMaxValue_Greedy, "Greedy"))
-            {
-                isValid = false;
-            }
-
-            if (!ValidateAlgorithm(GetMaxValue_BranchAndBound_BFS, "Branch and Bound (Breadth-First Search)"))
-            {
-                isValid = false;
-            }
-
-            return isValid;
+            ValidateAlgorithm(GetMaxValue_BruteForce, "Brute Force");
+            ValidateAlgorithm(GetMaxValue_Dynamic, "Dynamic");
+            ValidateAlgorithm(GetMaxValue_Backtracking, "Backtracking");
+            ValidateAlgorithm(GetMaxValue_Greedy, "Greedy");
+            ValidateAlgorithm(GetMaxValue_BabBfs, "Branch and Bound (Breadth-First Search)");
         }
 
         private static bool ValidateAlgorithm(Func<int, List<KnapsackItem>, int> func, string name)
@@ -173,6 +151,36 @@ namespace TestConsole
                     }
                     Console.WriteLine($"{valueDifference * 100, 16:###.00}%");
                     Console.ForegroundColor = ConsoleColor.White;
+                }
+            }
+        }
+
+        private static void Test2()
+        {
+
+        }
+
+        private static void Test2(int countMin, int countMax, int countIncrement, int capacityMin, int capacityMax, int capacityIncrement, int valueMin = 0, int valueMax = 1000, int weightMin = 0, int weightMax = 1000)
+        {
+            for (int count = countMin; count <= countMax; count += countIncrement)
+            {
+                for (int capacity = capacityMin; capacity <= capacityMax; capacity += capacityIncrement)
+                {
+                    List<KnapsackItem> items = GetRandomItems(weightMin, weightMax, valueMin, valueMax, count);
+                    double babBfsDuration = double.MaxValue;
+                    double babBfsValue = 0;
+
+                    for (int k = 0; k < 10; k++)
+                    {
+                        babBfsDuration = Math.Min(babBfsDuration,
+                            TimeAlgorithm(() =>
+                            {
+                                babBfsValue = GetMaxValue_BabBfs(capacity, items);
+                            }));
+                    }
+
+                    Console.Write($"{count,8},{capacity,9},{valueMax - valueMin,12},{weightMax - weightMin,13},");
+                    Console.Write($"{babBfsDuration,13:0.0000},");
                 }
             }
         }

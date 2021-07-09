@@ -68,24 +68,9 @@ namespace TestConsole
 
         private static void Validate()
         {
-            bool isValid = true;
-
-            if (!validateAlgorithm(BinomialCoefficient_DivideAndConquer, "Divide and Conquer"))
-            {
-                isValid = false;
-            }
-
-            if (!validateAlgorithm(BinomialCoefficient_Dynamic, "Dynamic"))
-            {
-                isValid = false;
-            }
-
-            if (!validateAlgorithm(BinomialCoefficient_Dynamic_Optimized, "Dynamic (Space Optimized)"))
-            {
-                isValid = false;
-            }
-
-            return isValid;
+            validateAlgorithm(BinomialCoefficient_DivideAndConquer, "Divide and Conquer");
+            validateAlgorithm(BinomialCoefficient_Dynamic, "Dynamic");
+            validateAlgorithm(BinomialCoefficient_Dynamic_Optimized, "Dynamic (Space Optimized)");
         }
 
         private static bool validateAlgorithm(Func<int, int, int> func, string name)

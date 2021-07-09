@@ -136,7 +136,7 @@ namespace Algorithms
             }
         }
 
-        public static int GetMaxValue_BranchAndBound_BFS(int capacity, List<KnapsackItem> items)
+        public static int GetMaxValue_BabBfs(int capacity, List<KnapsackItem> items)
         {
             List<KnapsackItem> sortedItems = items.OrderByDescending(i => i.ValuePerWeight).ToList();
 

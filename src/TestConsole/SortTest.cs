@@ -13,8 +13,6 @@ namespace TestConsole
 
         private static void Validate()
         {
-            bool isValid = true;
-
             List<int> unsortedList = GetRandomList(20);
             List<int> sortedList = new List<int>(unsortedList);
             sortedList.Sort(); // Assuming the built-in sort works ;)
@@ -23,24 +21,13 @@ namespace TestConsole
             Console.WriteLine("Sorted:   " + string.Join(",", sortedList));
 
             List<int> list = new List<int>(unsortedList);
-            if (!ValidateSort(sortedList, list, () => BubbleSort(list), "Bubble:   "))
-            {
-                isValid = false;
-            }
+            ValidateSort(sortedList, list, () => BubbleSort(list), "Bubble:   ");
 
             list = new List<int>(unsortedList);
-            if (!ValidateSort(sortedList, list, () => QuickSort(list), "Quick:    "))
-            {
-                isValid = false;
-            }
+            ValidateSort(sortedList, list, () => QuickSort(list), "Quick:    ");
 
             list = new List<int>(unsortedList);
-            if (!ValidateSort(sortedList, list, () => MergeSort(list), "Merge:    "))
-            {
-                isValid = false;
-            }
-
-            return isValid;
+            ValidateSort(sortedList, list, () => MergeSort(list), "Merge:    ");
         }
 
         private static bool ValidateSort<T>(List<T> sortedList, List<T> list, Action sort, string name)
