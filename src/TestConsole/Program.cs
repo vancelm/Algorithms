@@ -12,12 +12,14 @@ namespace TestConsole
                 return;
             }
 
-            AlgorithmTest test;
+            Action test;
+            Func<bool> validate;
 
             switch (args[0].Trim().ToLowerInvariant())
             {
                 case "sort":
-                    test = new SortTest();
+                    validate = () => SortTest.Validate();
+                    test = () => SortTest.Test();
                     break;
                 case "binomial-coefficient":
                     test = new BinomialCoefficientTest();
@@ -30,8 +32,8 @@ namespace TestConsole
                     return;
             }
 
-            test.RunValidation();
-            test.RunTest();
+            AlgorithmTestHelper.Validate(validate);
+            AlgorithmTestHelper.Test(test);
         }
     }
 }
