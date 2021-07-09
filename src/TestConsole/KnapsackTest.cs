@@ -57,18 +57,13 @@ namespace TestConsole
         {
             Validate();
 
-            Console.WriteLine("Test 1...");
-            Console.WriteLine("   Count, Capacity, Dynamic Time, Backtracking Time, Greedy Time, Greedy % Optimal");
+            Test1_WriteHeading();
             Test1(100, 10000, 100, 1000, 1000, 1);
 
-            Console.WriteLine();
-            Console.WriteLine("Test 2...");
-            Console.WriteLine("   Count, Capacity, Dynamic Time, Backtracking Time, Greedy Time, Greedy % Optimal");
+            Test1_WriteHeading();
             Test1(1000, 1000, 1, 100, 10000, 100);
 
-            Console.WriteLine();
-            Console.WriteLine("Test 3...");
-            Console.WriteLine("   Count, Capacity, Value Range, Weight Range, Dynamic Time, Backtracking Time, Greedy Time, Greedy % Optimal");
+            Test1_WriteHeading();
             int min = 0;
             int max = 1000;
             while (min < max)
@@ -78,9 +73,7 @@ namespace TestConsole
                 max -= 10;
             }
 
-            Console.WriteLine();
-            Console.WriteLine("Test 4...");
-            Console.WriteLine("   Count, Capacity, Value Range, Weight Range, Dynamic Time, Backtracking Time, Greedy Time, Greedy % Optimal");
+            Test1_WriteHeading();
             min = 0;
             max = 1000;
             while (min < max)
@@ -90,9 +83,7 @@ namespace TestConsole
                 max -= 10;
             }
 
-            Console.WriteLine();
-            Console.WriteLine("Test 5...");
-            Console.WriteLine("   Count, Capacity, Value Range, Weight Range, Dynamic Time, Backtracking Time, Greedy Time, Greedy % Optimal");
+            Test1_WriteHeading();
             min = 0;
             max = 1000;
             while (min < max)
@@ -101,6 +92,12 @@ namespace TestConsole
                 min += 10;
                 max -= 10;
             }
+        }
+
+        private static void Test1_WriteHeading()
+        {
+            Console.WriteLine("Test 1...");
+            Console.WriteLine("   Count, Capacity, Dynamic Time, Backtracking Time, Greedy Time, Greedy % Optimal");
         }
 
         private static void Test1(int countMin, int countMax, int countIncrement, int capacityMin, int capacityMax, int capacityIncrement, int valueMin = 0, int valueMax = 1000, int weightMin = 0, int weightMax = 1000)
@@ -155,9 +152,10 @@ namespace TestConsole
             }
         }
 
-        private static void Test2()
+        public static void Test2()
         {
-
+            Test2(100, 10000, 100, 1000, 1000, 1);
+            Test2(1000, 1000, 1, 100, 10000, 100);
         }
 
         private static void Test2(int countMin, int countMax, int countIncrement, int capacityMin, int capacityMax, int capacityIncrement, int valueMin = 0, int valueMax = 1000, int weightMin = 0, int weightMax = 1000)
@@ -181,6 +179,7 @@ namespace TestConsole
 
                     Console.Write($"{count,8},{capacity,9},{valueMax - valueMin,12},{weightMax - weightMin,13},");
                     Console.Write($"{babBfsDuration,13:0.0000},");
+                    Console.WriteLine();
                 }
             }
         }
