@@ -1,12 +1,12 @@
-﻿using static Algorithms.KnapsackProblem;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Algorithms;
-using System.Threading.Tasks;
+using static Algorithms.KnapsackProblem;
+using static TestConsole.AlgorithmTestHelper;
 
 namespace TestConsole
 {
-    internal class KnapsackTest : AlgorithmTest
+    internal static class KnapsackTest
     {
         private static readonly Random random = new();
         private static readonly int validationValue = 217;
@@ -25,7 +25,7 @@ namespace TestConsole
             new(92, 23),
         };
 
-        protected override bool ValidateAlgorithms()
+        public static bool Validate()
         {
             bool isValid = true;
             if (!ValidateAlgorithm(GetMaxValue_BruteForce, "Brute Force"))
@@ -56,7 +56,7 @@ namespace TestConsole
             return isValid;
         }
 
-        private bool ValidateAlgorithm(Func<int, List<KnapsackItem>, int> func, string name)
+        private static bool ValidateAlgorithm(Func<int, List<KnapsackItem>, int> func, string name)
         {
             Console.WriteLine($"Validating {name} algorithm...");
             int value = func(validationCapacity, validationList);
@@ -75,7 +75,7 @@ namespace TestConsole
             }
         }
 
-        protected override void TestAlgorithms()
+        public static void Test1()
         {
             Console.WriteLine("Test 1...");
             Console.WriteLine("   Count, Capacity, Dynamic Time, Backtracking Time, Greedy Time, Greedy % Optimal");
@@ -123,7 +123,7 @@ namespace TestConsole
             }
         }
 
-        private void Test(int countMin, int countMax, int countIncrement, int capacityMin, int capacityMax, int capacityIncrement, int valueMin = 0, int valueMax = 1000, int weightMin = 0, int weightMax = 1000)
+        private static void Test(int countMin, int countMax, int countIncrement, int capacityMin, int capacityMax, int capacityIncrement, int valueMin = 0, int valueMax = 1000, int weightMin = 0, int weightMax = 1000)
         {
             for (int count = countMin; count <= countMax; count += countIncrement)
             {
@@ -140,17 +140,17 @@ namespace TestConsole
                     for (int k = 0; k < 10; k++)
                     {
                         dynamicDuration = Math.Min(dynamicDuration,
-                            TestAlgorithm(() =>
+                            TimeAlgorithm(() =>
                             {
                                 dynamicValue = GetMaxValue_Dynamic(capacity, items);
                             }));
                         backtrackingDuration = Math.Min(backtrackingDuration,
-                            TestAlgorithm(() =>
+                            TimeAlgorithm(() =>
                             {
                                 backtrackingValue = GetMaxValue_Backtracking(capacity, items);
                             }));
                         greedyDuration = Math.Min(greedyDuration,
-                            TestAlgorithm(() =>
+                            TimeAlgorithm(() =>
                             {
                                 greedyValue = GetMaxValue_Greedy(capacity, items);
                             }));
