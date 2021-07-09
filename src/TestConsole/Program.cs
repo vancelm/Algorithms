@@ -15,15 +15,12 @@ namespace TestConsole
             switch (args[0].Trim().ToLowerInvariant())
             {
                 case "sort":
-                    SortTest.Validate();
                     SortTest.Test();
                     break;
                 case "binomial-coefficient":
-                    BinomialCoefficientTest.Validate();
                     BinomialCoefficientTest.Test();
                     break;
                 case "knapsack1":
-                    KnapsackTest.Validate();
                     KnapsackTest.Test1();
                     break;
                 default:

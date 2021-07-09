@@ -25,7 +25,7 @@ namespace TestConsole
             new(92, 23),
         };
 
-        public static bool Validate()
+        private static void Validate()
         {
             bool isValid = true;
             if (!ValidateAlgorithm(GetMaxValue_BruteForce, "Brute Force"))
@@ -77,6 +77,8 @@ namespace TestConsole
 
         public static void Test1()
         {
+            Validate();
+
             Console.WriteLine("Test 1...");
             Console.WriteLine("   Count, Capacity, Dynamic Time, Backtracking Time, Greedy Time, Greedy % Optimal");
             Test(100, 10000, 100, 1000, 1000, 1);

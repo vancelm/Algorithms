@@ -11,7 +11,7 @@ namespace TestConsole
         private static readonly Random random = new Random();
         private static readonly Stopwatch stopwatch = new Stopwatch();
 
-        public static bool Validate()
+        private static void Validate()
         {
             bool isValid = true;
 
@@ -63,6 +63,8 @@ namespace TestConsole
 
         public static void Test()
         {
+            Validate();
+
             Console.WriteLine();
             Console.WriteLine("Random");
             TestSorts(GetRandomList);

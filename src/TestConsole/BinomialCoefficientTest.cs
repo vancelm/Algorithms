@@ -66,7 +66,7 @@ namespace TestConsole
             (9, 9, 1)
         };
 
-        public static bool Validate()
+        private static void Validate()
         {
             bool isValid = true;
 
@@ -110,6 +110,7 @@ namespace TestConsole
 
         public static void Test()
         {
+            Validate();
             TestAlgorithm(BinomialCoefficient_DivideAndConquer, "Divide and Conquer");
             TestAlgorithm(BinomialCoefficient_Dynamic, "Dynamic");
             TestAlgorithm(BinomialCoefficient_Dynamic_Optimized, "Dynamic (Space Optimized)");
