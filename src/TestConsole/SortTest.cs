@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using static Algorithms.Sort;
+using static TestConsole.AlgorithmTestHelper;
 
 namespace TestConsole
 {
-    internal class SortTest : AlgorithmTest
+    internal static class SortTest
     {
-        private readonly Random random = new Random();
-        private readonly Stopwatch stopwatch = new Stopwatch();
+        private static readonly Random random = new Random();
+        private static readonly Stopwatch stopwatch = new Stopwatch();
 
-        protected override bool ValidateAlgorithms()
+        public static bool Validate()
         {
             bool isValid = true;
 
@@ -42,7 +43,7 @@ namespace TestConsole
             return isValid;
         }
 
-        private bool ValidateSort<T>(List<T> sortedList, List<T> list, Action sort, string name)
+        private static bool ValidateSort<T>(List<T> sortedList, List<T> list, Action sort, string name)
         {
             sort();
             Console.Write(name + string.Join(",", list));
@@ -60,7 +61,7 @@ namespace TestConsole
             return true;
         }
 
-        protected override void TestAlgorithms()
+        public static void Test()
         {
             Console.WriteLine();
             Console.WriteLine("Random");
@@ -75,20 +76,20 @@ namespace TestConsole
             TestSorts(GetReverseList);
         }
 
-        private void TestSorts(Func<int, List<int>> getList)
+        private static void TestSorts(Func<int, List<int>> getList)
         {
             for (int i = 1; i <= 1000000000; i *= 10)
             {
                 List<int> list = getList(i);
                 Console.Write(i + ",");
                 //Console.Write(SortTest(() => new List<int>(list).BubbleSort()) + ",");
-                Console.Write(TestAlgorithm(() => QuickSort(new List<int>(list))) + ",");
-                Console.Write(TestAlgorithm(() => MergeSort(new List<int>(list))) + ",");
-                Console.Write(TestAlgorithm(() => new List<int>(list).Sort()) + "\r\n");
+                Console.Write(TimeAlgorithm(() => QuickSort(new List<int>(list))) + ",");
+                Console.Write(TimeAlgorithm(() => MergeSort(new List<int>(list))) + ",");
+                Console.Write(TimeAlgorithm(() => new List<int>(list).Sort()) + "\r\n");
             }
         }
 
-        private List<int> GetRandomList(int count)
+        private static List<int> GetRandomList(int count)
         {
 
             List<int> list = new List<int>(count);
@@ -97,7 +98,7 @@ namespace TestConsole
             return list;
         }
 
-        private List<int> GetSequentialList(int count)
+        private static List<int> GetSequentialList(int count)
         {
             List<int> list = new List<int>(count);
             for (int i = 0; i < count; i++)
@@ -105,7 +106,7 @@ namespace TestConsole
             return list;
         }
 
-        private List<int> GetReverseList(int count)
+        private static List<int> GetReverseList(int count)
         {
             List<int> list = new List<int>(count);
             for (int i = count - 1; i >= 0; i--)
