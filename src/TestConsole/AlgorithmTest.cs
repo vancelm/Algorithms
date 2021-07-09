@@ -3,19 +3,11 @@ using System.Diagnostics;
 
 namespace TestConsole
 {
-    internal abstract class AlgorithmTest
+    internal static class AlgorithmTest
     {
         private static readonly Stopwatch stopwatch = new Stopwatch();
 
-        public void RunTest()
-        {
-            Console.WriteLine("Beginning test...");
-            TestAlgorithms();
-        }
-
-        protected abstract void TestAlgorithms();
-
-        protected double TestAlgorithm(Action action)
+        public static double TestAlgorithm(Action action)
         {
             stopwatch.Restart();
             action();
@@ -23,10 +15,10 @@ namespace TestConsole
             return stopwatch.Elapsed.TotalMilliseconds;
         }
 
-        public void RunValidation()
+        public static void RunValidation(Func<bool> func)
         {
             Console.WriteLine("Validating...");
-            bool isValid = ValidateAlgorithms();
+            bool isValid = func();
 
             if (isValid)
             {
@@ -43,7 +35,5 @@ namespace TestConsole
 
             Console.WriteLine();
         }
-
-        protected abstract bool ValidateAlgorithms();
     }
 }
