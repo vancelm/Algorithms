@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using static Algorithms.BinomialCoefficient;
+using static TestConsole.AlgorithmTestHelper;
 
 namespace TestConsole
 {
-    internal class BinomialCoefficientTest : AlgorithmTest
+    internal static class BinomialCoefficientTest
     {
         private static readonly IReadOnlyList<(int n, int k, int c)> expectedValues = new List<(int, int, int)>()
         {
@@ -65,7 +66,7 @@ namespace TestConsole
             (9, 9, 1)
         };
 
-        protected override bool ValidateAlgorithms()
+        public static bool Validate()
         {
             bool isValid = true;
 
@@ -107,14 +108,14 @@ namespace TestConsole
             return true;
         }
 
-        protected override void TestAlgorithms()
+        public static void Test()
         {
-            Test(BinomialCoefficient_DivideAndConquer, "Divide and Conquer");
-            Test(BinomialCoefficient_Dynamic, "Dynamic");
-            Test(BinomialCoefficient_Dynamic_Optimized, "Dynamic (Space Optimized)");
+            TestAlgorithm(BinomialCoefficient_DivideAndConquer, "Divide and Conquer");
+            TestAlgorithm(BinomialCoefficient_Dynamic, "Dynamic");
+            TestAlgorithm(BinomialCoefficient_Dynamic_Optimized, "Dynamic (Space Optimized)");
         }
 
-        private void Test(Func<int, int, int> func, string name)
+        private static void TestAlgorithm(Func<int, int, int> func, string name)
         {
             Console.WriteLine();
             Console.WriteLine(name);
@@ -129,7 +130,7 @@ namespace TestConsole
 
                 for (int i = 0; i < 10; i++)
                 {
-                    double duration = TestAlgorithm(() =>
+                    double duration = TimeAlgorithm(() =>
                     {
                         for (int k = 0; k <= n; k++)
                         {
