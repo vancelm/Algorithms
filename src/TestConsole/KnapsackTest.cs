@@ -81,12 +81,12 @@ namespace TestConsole
 
             Console.WriteLine("Test 1...");
             Console.WriteLine("   Count, Capacity, Dynamic Time, Backtracking Time, Greedy Time, Greedy % Optimal");
-            Test(100, 10000, 100, 1000, 1000, 1);
+            Test1(100, 10000, 100, 1000, 1000, 1);
 
             Console.WriteLine();
             Console.WriteLine("Test 2...");
             Console.WriteLine("   Count, Capacity, Dynamic Time, Backtracking Time, Greedy Time, Greedy % Optimal");
-            Test(1000, 1000, 1, 100, 10000, 100);
+            Test1(1000, 1000, 1, 100, 10000, 100);
 
             Console.WriteLine();
             Console.WriteLine("Test 3...");
@@ -95,7 +95,7 @@ namespace TestConsole
             int max = 1000;
             while (min < max)
             {
-                Test(1000, 1000, 1, 1000, 1000, 1, min, max, 0, 1000);
+                Test1(1000, 1000, 1, 1000, 1000, 1, min, max, 0, 1000);
                 min += 10;
                 max -= 10;
             }
@@ -107,7 +107,7 @@ namespace TestConsole
             max = 1000;
             while (min < max)
             {
-                Test(1000, 1000, 1, 1000, 1000, 1, 0, 1000, min, max);
+                Test1(1000, 1000, 1, 1000, 1000, 1, 0, 1000, min, max);
                 min += 10;
                 max -= 10;
             }
@@ -119,13 +119,13 @@ namespace TestConsole
             max = 1000;
             while (min < max)
             {
-                Test(1000, 1000, 1, 1000, 1000, 1, min, max, min, max);
+                Test1(1000, 1000, 1, 1000, 1000, 1, min, max, min, max);
                 min += 10;
                 max -= 10;
             }
         }
 
-        private static void Test(int countMin, int countMax, int countIncrement, int capacityMin, int capacityMax, int capacityIncrement, int valueMin = 0, int valueMax = 1000, int weightMin = 0, int weightMax = 1000)
+        private static void Test1(int countMin, int countMax, int countIncrement, int capacityMin, int capacityMax, int capacityIncrement, int valueMin = 0, int valueMax = 1000, int weightMin = 0, int weightMax = 1000)
         {
             for (int count = countMin; count <= countMax; count += countIncrement)
             {
