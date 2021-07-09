@@ -179,13 +179,13 @@ namespace Algorithms
                 result = u.Value;
                 j = u.Level + 1;
                 totalWeight = u.Weight;
-                while (j <= items.Count && totalWeight + items[j].Weight <= capacity)
+                while (j < items.Count && totalWeight + items[j].Weight <= capacity)
                 {
                     totalWeight += items[j].Weight;
                     result += items[j].Value;
                     j++;
                 }
-                if (j <= items.Count)
+                if (j < items.Count)
                     result += (capacity - totalWeight) * items[j].ValuePerWeight;
 
                 return result;
