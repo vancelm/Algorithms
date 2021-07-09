@@ -48,6 +48,11 @@ namespace TestConsole
                 isValid = false;
             }
 
+            if (!ValidateAlgorithm(GetMaxValue_BranchAndBound_BFS, "Branch and Bound (Breadth-First Search)"))
+            {
+                isValid = false;
+            }
+
             return isValid;
         }
 
