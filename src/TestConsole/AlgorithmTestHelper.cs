@@ -7,7 +7,7 @@ namespace TestConsole
     {
         private static readonly Stopwatch stopwatch = new Stopwatch();
 
-        public static double TestAlgorithm(Action action)
+        public static double TimeAlgorithm(Action action)
         {
             stopwatch.Restart();
             action();
@@ -15,7 +15,7 @@ namespace TestConsole
             return stopwatch.Elapsed.TotalMilliseconds;
         }
 
-        public static void RunValidation(Func<bool> func)
+        public static void ValidateAlgorithms(Func<bool> func)
         {
             Console.WriteLine("Validating...");
             bool isValid = func();
