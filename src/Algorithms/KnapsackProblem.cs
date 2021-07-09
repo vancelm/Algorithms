@@ -81,7 +81,7 @@ namespace Algorithms
 
         public static int GetMaxValue_Backtracking(int capacity, List<KnapsackItem> items)
         {
-            var sortedItems = items.OrderByDescending(i => i.ValuePerWeight).ToList();
+            List<KnapsackItem> sortedItems = items.OrderByDescending(i => i.ValuePerWeight).ToList();
             bool[] include = new bool[items.Count];
             int maxProfit = 0;
             Backtracking_Recursive(capacity, sortedItems, -1, 0, 0, ref maxProfit, include);
@@ -133,6 +133,62 @@ namespace Algorithms
                 }
 
                 return bound > maxValue;
+            }
+        }
+
+        public static int GetMaxValue_BranchAndBound_BFS(int capacity, List<KnapsackItem> items)
+        {
+            List<KnapsackItem> sortedItems = items.OrderByDescending(i => i.ValuePerWeight).ToList();
+
+            (int Level, int Value, int Weight) u, v;
+            v = new(0, 0, 0);
+
+            Queue<(int Level, int Value, int Weight)> queue = new();
+            queue.Enqueue(v);
+
+            int maxValue = 0;
+
+            while (queue.Count > 0)
+            {
+                v = queue.Dequeue();
+                u = new(v.Level + 1,
+                        v.Value + items[v.Level + 1].Value,
+                        v.Weight + items[v.Level + 1].Weight);
+
+                if (u.Weight <= capacity && u.Value > maxValue)
+                    maxValue = u.Value;
+                if (Bound(capacity, items, u) > maxValue)
+                    queue.Enqueue(u);
+                u = new(u.Level, v.Value, v.Weight);
+                if (Bound(capacity, items, u) > maxValue)
+                    queue.Enqueue(u);
+            }
+
+            return maxValue;
+        }
+        private static double Bound(int capacity, List<KnapsackItem> items, (int Level, int Value, int Weight) u)
+        {
+            int j;
+            int totalWeight;
+            double result;
+
+            if (u.Weight >= capacity)
+                return 0;
+            else
+            {
+                result = u.Value;
+                j = u.Level + 1;
+                totalWeight = u.Weight;
+                while (j <= items.Count && totalWeight + items[j].Weight <= capacity)
+                {
+                    totalWeight += items[j].Weight;
+                    result += items[j].Value;
+                    j++;
+                }
+                if (j <= items.Count)
+                    result += (capacity - totalWeight) * items[j].ValuePerWeight;
+
+                return result;
             }
         }
     }
