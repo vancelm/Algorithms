@@ -31,7 +31,8 @@ namespace TestConsole
             ValidateAlgorithm(GetMaxValue_Dynamic, "Dynamic");
             ValidateAlgorithm(GetMaxValue_Backtracking, "Backtracking");
             ValidateAlgorithm(GetMaxValue_Greedy, "Greedy");
-            ValidateAlgorithm(GetMaxValue_BabBfs, "Branch and Bound (Breadth-First Search)");
+            ValidateAlgorithm(GetMaxValue_BranchAndBound_BreadthFirst, "Branch-and-Bound (Breadth-First Search)");
+            ValidateAlgorithm(GetMaxValue_BranchAndBound_BestFirst, "Branch-and-Bound (Best-First Search)");
         }
 
         private static bool ValidateAlgorithm(Func<int, List<KnapsackItem>, int> func, string name)
@@ -154,6 +155,7 @@ namespace TestConsole
 
         public static void Test2()
         {
+            Validate();
             Test2(100, 10000, 100, 1000, 1000, 1);
             Test2(1000, 1000, 1, 100, 10000, 100);
         }
@@ -165,20 +167,28 @@ namespace TestConsole
                 for (int capacity = capacityMin; capacity <= capacityMax; capacity += capacityIncrement)
                 {
                     List<KnapsackItem> items = GetRandomItems(weightMin, weightMax, valueMin, valueMax, count);
-                    double babBfsDuration = double.MaxValue;
-                    double babBfsValue = 0;
+                    double breadthFirstDuration = double.MaxValue;
+                    double breadthFirsthValue = 0;
+                    double bestFirstDuration = double.MaxValue;
+                    double bestFirsthValue = 0;
 
                     for (int k = 0; k < 10; k++)
                     {
-                        babBfsDuration = Math.Min(babBfsDuration,
+                        breadthFirstDuration = Math.Min(breadthFirstDuration,
                             TimeAlgorithm(() =>
                             {
-                                babBfsValue = GetMaxValue_BabBfs(capacity, items);
+                                breadthFirsthValue = GetMaxValue_BranchAndBound_BreadthFirst(capacity, items);
+                            }));
+                        bestFirstDuration = Math.Min(bestFirstDuration,
+                            TimeAlgorithm(() =>
+                            {
+                                bestFirsthValue = GetMaxValue_BranchAndBound_BestFirst(capacity, items);
                             }));
                     }
 
                     Console.Write($"{count,8},{capacity,9},{valueMax - valueMin,12},{weightMax - weightMin,13},");
-                    Console.Write($"{babBfsDuration,13:0.0000},");
+                    Console.Write($"{breadthFirstDuration,13:0.0000}," +
+                        $"{bestFirstDuration,13:0.0000}");
                     Console.WriteLine();
                 }
             }

@@ -136,14 +136,22 @@ namespace Algorithms
             }
         }
 
-        public static int GetMaxValue_BabBfs(int capacity, List<KnapsackItem> items)
+        private struct Node
+        {
+            public int Level;
+            public int Value;
+            public int Weight;
+            public double Bound;
+        }
+
+        public static int GetMaxValue_BranchAndBound_BreadthFirst(int capacity, List<KnapsackItem> items)
         {
             List<KnapsackItem> sortedItems = items.OrderByDescending(i => i.ValuePerWeight).ToList();
 
-            (int Level, int Value, int Weight) u, v;
-            v = new(0, 0, 0);
+            Node v = new();
+            Node u = new();
 
-            Queue<(int Level, int Value, int Weight)> queue = new();
+            Queue<Node> queue = new();
             queue.Enqueue(v);
 
             int maxValue = 0;
@@ -151,22 +159,64 @@ namespace Algorithms
             while (queue.Count > 0)
             {
                 v = queue.Dequeue();
-                u = new(v.Level + 1,
-                        v.Value + items[v.Level + 1].Value,
-                        v.Weight + items[v.Level + 1].Weight);
-
+                u.Level = v.Level + 1;
+                u.Value = v.Value + items[u.Level].Value;
+                u.Weight = v.Weight + items[u.Level].Weight;
                 if (u.Weight <= capacity && u.Value > maxValue)
                     maxValue = u.Value;
+                
                 if (Bound(capacity, items, u) > maxValue)
                     queue.Enqueue(u);
-                u = new(u.Level, v.Value, v.Weight);
+
+                u.Value = v.Value;
+                u.Weight = v.Weight;
                 if (Bound(capacity, items, u) > maxValue)
                     queue.Enqueue(u);
             }
 
             return maxValue;
         }
-        private static double Bound(int capacity, List<KnapsackItem> items, (int Level, int Value, int Weight) u)
+
+        public static int GetMaxValue_BranchAndBound_BestFirst(int capacity, List<KnapsackItem> items)
+        {
+            List<KnapsackItem> sortedItems = items.OrderByDescending(i => i.ValuePerWeight).ToList();
+            
+            Node v = new();
+            Node u = new();
+            v.Bound = Bound(capacity, items, v);
+
+            PriorityQueue<Node, double> queue = new();
+            queue.Enqueue(v, -v.Bound);
+
+            int maxValue = 0;
+
+            while (queue.Count > 0)
+            {
+                v = queue.Dequeue();
+                if (v.Bound > maxValue)
+                {
+                    u.Level = v.Level + 1;
+                    u.Value = u.Value + items[u.Level].Value;
+                    u.Weight = v.Weight + items[u.Level].Weight;
+                    if (u.Weight <= capacity && u.Value > maxValue)
+                        maxValue = u.Value;
+                    
+                    u.Bound = Bound(capacity, items, u);
+                    if (u.Bound > maxValue)
+                        queue.Enqueue(u, -u.Bound);
+                    
+                    u.Value = v.Value;
+                    u.Weight = v.Weight;
+                    u.Bound = Bound(capacity, items, u);
+                    if (u.Bound > maxValue)
+                        queue.Enqueue(u, -u.Bound);
+                }
+            }
+
+            return maxValue;
+        }
+
+        private static double Bound(int capacity, List<KnapsackItem> items, Node u)
         {
             int j;
             int totalWeight;
