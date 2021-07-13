@@ -146,6 +146,9 @@ namespace Algorithms
 
         public static int GetMaxValue_BranchAndBound_BreadthFirst(int capacity, List<KnapsackItem> items)
         {
+            if (items.Count == 0)
+                return 0;
+
             List<KnapsackItem> sortedItems = items.OrderByDescending(i => i.ValuePerWeight).ToList();
             Queue<Node> queue = new();
             Node u = new();
@@ -177,6 +180,9 @@ namespace Algorithms
 
         public static int GetMaxValue_BranchAndBound_BestFirst(int capacity, List<KnapsackItem> items)
         {
+            if (items.Count == 0)
+                return 0;
+
             List<KnapsackItem> sortedItems = items.OrderByDescending(i => i.ValuePerWeight).ToList();
             PriorityQueue<Node, double> queue = new();
             Node u = new();
