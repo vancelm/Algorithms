@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading;
 using Algorithms;
 using static Algorithms.KnapsackProblem;
 using static TestConsole.AlgorithmTestHelper;
@@ -54,141 +57,63 @@ namespace TestConsole
             }
         }
 
-        public static void Test1()
+        public static void Test()
         {
             Validate();
 
-            Test1_WriteHeading();
-            Test1(100, 10000, 100, 1000, 1000, 1);
-
-            Test1_WriteHeading();
-            Test1(1000, 1000, 1, 100, 10000, 100);
-
-            Test1_WriteHeading();
-            int min = 0;
-            int max = 1000;
-            while (min < max)
-            {
-                Test1(1000, 1000, 1, 1000, 1000, 1, min, max, 0, 1000);
-                min += 10;
-                max -= 10;
-            }
-
-            Test1_WriteHeading();
-            min = 0;
-            max = 1000;
-            while (min < max)
-            {
-                Test1(1000, 1000, 1, 1000, 1000, 1, 0, 1000, min, max);
-                min += 10;
-                max -= 10;
-            }
-
-            Test1_WriteHeading();
-            min = 0;
-            max = 1000;
-            while (min < max)
-            {
-                Test1(1000, 1000, 1, 1000, 1000, 1, min, max, min, max);
-                min += 10;
-                max -= 10;
-            }
+            Test(10, 400, 10, 100, 100, 1);
+            Test(100, 100, 1, 10, 400, 10);
         }
 
-        private static void Test1_WriteHeading()
+        private static void Test_WriteHeading()
         {
             Console.WriteLine("Test 1...");
-            Console.WriteLine("   Count, Capacity, Dynamic Time, Backtracking Time, Greedy Time, Greedy % Optimal");
+            
         }
 
-        private static void Test1(int countMin, int countMax, int countIncrement, int capacityMin, int capacityMax, int capacityIncrement, int valueMin = 0, int valueMax = 1000, int weightMin = 0, int weightMax = 1000)
+        private static void Test(int countMin, int countMax, int countIncrement, int capacityMin, int capacityMax, int capacityIncrement, int valueMin = 0, int valueMax = 1000, int weightMin = 0, int weightMax = 1000, int iterations = 1)
         {
-            for (int count = countMin; count <= countMax; count += countIncrement)
+            List<Func<int, List<KnapsackItem>, int>> algorithms = new();
+            algorithms.Add(GetMaxValue_Dynamic);
+            algorithms.Add(GetMaxValue_Greedy);
+            algorithms.Add(GetMaxValue_Backtracking);
+            algorithms.Add(GetMaxValue_BranchAndBound_BreadthFirst);
+            algorithms.Add(GetMaxValue_BranchAndBound_BestFirst);
+
+            Console.Write("Count,Capacity,Value Range,Weight Range");
+
+            foreach (var algorithm in algorithms)
             {
-                for (int capacity = capacityMin; capacity <= capacityMax; capacity += capacityIncrement)
-                {
-                    List<KnapsackItem> items = GetRandomItems(weightMin, weightMax, valueMin, valueMax, count);
-                    double dynamicDuration = double.MaxValue;
-                    double dynamicValue = 0;
-                    double backtrackingDuration = double.MaxValue;
-                    double backtrackingValue = 0;
-                    double greedyDuration = double.MaxValue;
-                    double greedyValue = 0;
-
-                    for (int k = 0; k < 10; k++)
-                    {
-                        dynamicDuration = Math.Min(dynamicDuration,
-                            TimeAlgorithm(() =>
-                            {
-                                dynamicValue = GetMaxValue_Dynamic(capacity, items);
-                            }));
-                        backtrackingDuration = Math.Min(backtrackingDuration,
-                            TimeAlgorithm(() =>
-                            {
-                                backtrackingValue = GetMaxValue_Backtracking(capacity, items);
-                            }));
-                        greedyDuration = Math.Min(greedyDuration,
-                            TimeAlgorithm(() =>
-                            {
-                                greedyValue = GetMaxValue_Greedy(capacity, items);
-                            }));
-                    }
-                    double valueDifference = greedyValue / dynamicValue;
-
-                    Console.Write($"{count,8},{capacity, 9},{valueMax - valueMin, 12},{weightMax - weightMin, 13},");
-                    Console.Write($"{dynamicDuration, 13:0.0000}," +
-                        $"{backtrackingDuration, 18:0.0000}," +
-                        $"{greedyDuration, 12:0.0000},");
-                    if (valueDifference == 1)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Green;
-                    }
-                    else
-                    {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                    }
-                    Console.WriteLine($"{valueDifference * 100, 16:###.00}%");
-                    Console.ForegroundColor = ConsoleColor.White;
-                }
+                Console.Write($",{algorithm.Method.Name}");
             }
-        }
 
-        public static void Test2()
-        {
-            Validate();
-            Test2(100, 10000, 100, 1000, 1000, 1);
-            Test2(1000, 1000, 1, 100, 10000, 100);
-        }
+            Console.WriteLine();
 
-        private static void Test2(int countMin, int countMax, int countIncrement, int capacityMin, int capacityMax, int capacityIncrement, int valueMin = 0, int valueMax = 1000, int weightMin = 0, int weightMax = 1000)
-        {
             for (int count = countMin; count <= countMax; count += countIncrement)
             {
                 for (int capacity = capacityMin; capacity <= capacityMax; capacity += capacityIncrement)
                 {
-                    List<KnapsackItem> items = GetRandomItems(weightMin, weightMax, valueMin, valueMax, count);
-                    double breadthFirstDuration = double.MaxValue;
-                    double breadthFirsthValue = 0;
-                    double bestFirstDuration = double.MaxValue;
-                    double bestFirsthValue = 0;
+                    List<KnapsackItem> items = GetRandomItems(1, count / 2, 1, count / 2, count);
+                    
 
-                    for (int k = 0; k < 10; k++)
+                    Console.Write($"{count},{capacity},{valueMax - valueMin},{weightMax - weightMin}");
+
+                    foreach (var algorithm in algorithms)
                     {
-                        breadthFirstDuration = Math.Min(breadthFirstDuration,
-                            TimeAlgorithm(() =>
+                        double duration = double.MaxValue;
+                        int value = 0;
+
+                        for (int i = 0; i < iterations; i++)
+                        {
+                            duration = Math.Min(duration, TimeAlgorithm(() =>
                             {
-                                breadthFirsthValue = GetMaxValue_BranchAndBound_BreadthFirst(capacity, items);
+                                value = algorithm(capacity, items);
                             }));
-                        bestFirstDuration = Math.Min(bestFirstDuration,
-                            TimeAlgorithm(() =>
-                            {
-                                bestFirsthValue = GetMaxValue_BranchAndBound_BestFirst(capacity, items);
-                            }));
+                        }
+
+                        Console.Write($",{duration}");
                     }
 
-                    Console.Write($"{count,8},{capacity,9},{valueMax - valueMin,12},{weightMax - weightMin,13},");
-                    Console.Write($"{breadthFirstDuration,13:0.0000}," +
-                        $"{bestFirstDuration,13:0.0000}");
                     Console.WriteLine();
                 }
             }

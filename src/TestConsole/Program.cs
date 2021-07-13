@@ -20,11 +20,8 @@ namespace TestConsole
                 case "binomial-coefficient":
                     BinomialCoefficientTest.Test();
                     break;
-                case "knapsack1":
-                    KnapsackTest.Test1();
-                    break;
-                case "knapsack2":
-                    KnapsackTest.Test2();
+                case "knapsack":
+                    KnapsackTest.Test();
                     break;
                 default:
                     Console.WriteLine("Unknown test specified.");
