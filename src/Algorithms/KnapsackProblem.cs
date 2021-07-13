@@ -147,30 +147,28 @@ namespace Algorithms
         public static int GetMaxValue_BranchAndBound_BreadthFirst(int capacity, List<KnapsackItem> items)
         {
             List<KnapsackItem> sortedItems = items.OrderByDescending(i => i.ValuePerWeight).ToList();
-
-            Node v = new();
-            Node u = new();
-
             Queue<Node> queue = new();
+            Node u = new();
+            Node v = new();
+            v.Level = -1;
             queue.Enqueue(v);
-
             int maxValue = 0;
 
             while (queue.Count > 0)
             {
                 v = queue.Dequeue();
                 u.Level = v.Level + 1;
-                u.Value = v.Value + items[u.Level].Value;
-                u.Weight = v.Weight + items[u.Level].Weight;
+                u.Value = v.Value + sortedItems[u.Level].Value;
+                u.Weight = v.Weight + sortedItems[u.Level].Weight;
                 if (u.Weight <= capacity && u.Value > maxValue)
                     maxValue = u.Value;
                 
-                if (Bound(capacity, items, u) > maxValue)
+                if (Bound(capacity, sortedItems, u) > maxValue)
                     queue.Enqueue(u);
 
                 u.Value = v.Value;
                 u.Weight = v.Weight;
-                if (Bound(capacity, items, u) > maxValue)
+                if (Bound(capacity, sortedItems, u) > maxValue)
                     queue.Enqueue(u);
             }
 
@@ -180,66 +178,63 @@ namespace Algorithms
         public static int GetMaxValue_BranchAndBound_BestFirst(int capacity, List<KnapsackItem> items)
         {
             List<KnapsackItem> sortedItems = items.OrderByDescending(i => i.ValuePerWeight).ToList();
-            
-            Node v = new();
-            Node u = new();
-            v.Bound = Bound(capacity, items, v);
-
             PriorityQueue<Node, double> queue = new();
-            queue.Enqueue(v, -v.Bound);
+            Node u = new();
+            Node v = new();
+            v.Level = -1;
+            v.Bound = Bound(capacity, items, v);
+            
+            queue.Enqueue(v, v.Bound);
 
             int maxValue = 0;
 
             while (queue.Count > 0)
             {
                 v = queue.Dequeue();
+
                 if (v.Bound > maxValue)
                 {
                     u.Level = v.Level + 1;
-                    u.Value = u.Value + items[u.Level].Value;
-                    u.Weight = v.Weight + items[u.Level].Weight;
+                    u.Value = v.Value + sortedItems[u.Level].Value;
+                    u.Weight = v.Weight + sortedItems[u.Level].Weight;
                     if (u.Weight <= capacity && u.Value > maxValue)
                         maxValue = u.Value;
                     
-                    u.Bound = Bound(capacity, items, u);
+                    u.Bound = Bound(capacity, sortedItems, u);
                     if (u.Bound > maxValue)
-                        queue.Enqueue(u, -u.Bound);
+                        queue.Enqueue(u, u.Bound);
                     
                     u.Value = v.Value;
                     u.Weight = v.Weight;
-                    u.Bound = Bound(capacity, items, u);
+                    u.Bound = Bound(capacity, sortedItems, u);
                     if (u.Bound > maxValue)
-                        queue.Enqueue(u, -u.Bound);
+                        queue.Enqueue(u, u.Bound);
                 }
             }
 
             return maxValue;
         }
 
-        private static double Bound(int capacity, List<KnapsackItem> items, Node u)
+        private static float Bound(int capacity, List<KnapsackItem> items, Node u)
         {
-            int j;
-            int totalWeight;
-            double result;
-
             if (u.Weight >= capacity)
                 return 0;
-            else
-            {
-                result = u.Value;
-                j = u.Level + 1;
-                totalWeight = u.Weight;
-                while (j < items.Count && totalWeight + items[j].Weight <= capacity)
-                {
-                    totalWeight += items[j].Weight;
-                    result += items[j].Value;
-                    j++;
-                }
-                if (j < items.Count)
-                    result += (capacity - totalWeight) * items[j].ValuePerWeight;
 
-                return result;
+            float result = u.Value;
+            int totalWeight = u.Weight;
+
+            int j = u.Level + 1;
+            while (j < items.Count && totalWeight + items[j].Weight <= capacity)
+            {
+                totalWeight += items[j].Weight;
+                result += items[j].Value;
+                j++;
             }
+
+            if (j < items.Count)
+                result += (capacity - totalWeight) * items[j].Value / items[j].Weight;
+
+            return result;
         }
     }
 }
