@@ -17,20 +17,23 @@ namespace TestConsole
             List<int> sortedList = new List<int>(unsortedList);
             sortedList.Sort(); // Assuming the built-in sort works ;)
 
-            Console.WriteLine("Unsorted: " + string.Join(",", unsortedList));
-            Console.WriteLine("Sorted:   " + string.Join(",", sortedList));
+            Console.WriteLine("Unsorted:   " + string.Join(",", unsortedList));
+            Console.WriteLine("List.Sort:  " + string.Join(",", sortedList));
 
             List<int> list = new List<int>(unsortedList);
-            ValidateSort(sortedList, list, () => BubbleSort(list), "Bubble:   ");
+            ValidateSort(sortedList, list, () => BubbleSort(list), "BubbleSort: ");
 
             list = new List<int>(unsortedList);
-            ValidateSort(sortedList, list, () => QuickSort(list), "Quick:    ");
+            ValidateSort(sortedList, list, () => QuickSort(list), "QuickSort:  ");
 
             list = new List<int>(unsortedList);
-            ValidateSort(sortedList, list, () => MergeSort(list), "Merge:    ");
+            ValidateSort(sortedList, list, () => MergeSort(list), "MergeSort:  ");
 
             list = new List<int>(unsortedList);
-            ValidateSort(sortedList, list, () => HeapSort(list), "Heap:    ");
+            ValidateSort(sortedList, list, () => HeapSort(list), "HeapSort:   ");
+
+            list = new List<int>(unsortedList);
+            ValidateSort(sortedList, list, () => HeapSort2(list), "HeapSort2:  ");
         }
 
         private static bool ValidateSort<T>(List<T> sortedList, List<T> list, Action sort, string name)
@@ -70,17 +73,19 @@ namespace TestConsole
 
         private static void TestSorts(Func<int, List<int>> getList)
         {
-            Console.WriteLine("Count, QuickSortRandom, QuickSortFixed, MergeSort, HeapSort, List.Sort");
+            Console.WriteLine("Count, List.Sort, BubbleSort, QuickSort1, QuickSort2, MergeSort, HeapSort, HeapSort2");
+            
             for (int i = 100; i <= 10000; i += 100)
             {
                 List<int> list = getList(i);
-                Console.Write(i + ",");
-                //Console.Write(SortTest(() => new List<int>(list).BubbleSort()) + ",");
+                Console.Write(i + ", ");
+                Console.WriteLine(TimeAlgorithm(() => new List<int>(list).Sort()));
+                Console.Write(TimeAlgorithm(() => BubbleSort(new List<int>(list))) + ", ");
                 Console.Write(TimeAlgorithm(() => QuickSort(new List<int>(list))) + ", ");
                 Console.Write(TimeAlgorithm(() => QuickSort(new List<int>(list), false)) + ", ");
                 Console.Write(TimeAlgorithm(() => MergeSort(new List<int>(list))) + ", ");
                 Console.Write(TimeAlgorithm(() => HeapSort(new List<int>(list))) + ", ");
-                Console.Write(TimeAlgorithm(() => new List<int>(list).Sort()) + "\r\n");
+                Console.Write(TimeAlgorithm(() => HeapSort2(new List<int>(list))) + ", ");
             }
         }
 

@@ -182,6 +182,12 @@ namespace Algorithms
             }
         }
 
+
+        /// <summary>
+        /// Sorts a list using a recursive heapsort algorithm.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the list.</typeparam>
+        /// <param name="list">The list containing the elements to swap.</param>
         public static void HeapSort<T>(IList<T> list)
             where T : IComparable<T>
         {
@@ -214,6 +220,53 @@ namespace Algorithms
             {
                 Swap(list, i, largest);
                 MakeHeap(list, n, largest);
+            }
+        }
+
+        /// <summary>
+        /// Sorts a list using an iterative heapsort algorithm.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the list.</typeparam>
+        /// <param name="list">The list containing the elements to swap.</param>
+        public static void HeapSort2<T>(IList<T> list)
+            where T : IComparable<T>
+        {
+            BuildMaxHeap(list);
+
+            for (int i = list.Count - 1; i > 0; i--)
+            {
+                Swap(list, 0, i);
+
+                int j = 0, index;
+
+                do
+                {
+                    index = 2 * j + 1;
+                    if (index < (i - 1) && list[index].CompareTo(list[index + 1]) < 0)
+                        index++;
+                    if (index < i && list[j].CompareTo(list[index]) < 0)
+                        Swap(list, j, index);
+
+                    j = index;
+                } while (index < i);
+            }
+        }
+
+        private static void BuildMaxHeap<T>(IList<T> list)
+            where T : IComparable<T>
+        {
+            for (int i = 1; i < list.Count; i++)
+            {
+                if (list[i].CompareTo(list[(i - 1) / 2]) > 0)
+                {
+                    int j = i;
+
+                    while (list[j].CompareTo(list[(j - 1) / 2]) > 0)
+                    {
+                        Swap(list, j, (j - 1) / 2);
+                        j = (j - 1) / 2;
+                    }
+                }
             }
         }
     }
