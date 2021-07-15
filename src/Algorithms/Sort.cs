@@ -50,13 +50,13 @@ namespace Algorithms
         /// <param name="list">The list containing elements to be sorted.</param>
         /// <param name="randomPivot">Specifies whether the quick sort pivot should be randomized.</param>
         /// <typeparam name="T">The type of elements in the list.</typeparam>
-        public static void QuickSort<T>(IList<T> list)
+        public static void QuickSort<T>(IList<T> list, bool randomPivot = true)
             where T : IComparable<T>
         {
-            QuickSort_Recursive(list, 0, list.Count - 1);
+            QuickSort_Recursive(list, 0, list.Count - 1, randomPivot);
         }
 
-        private static void QuickSort_Recursive<T>(IList<T> list, int low, int high)
+        private static void QuickSort_Recursive<T>(IList<T> list, int low, int high, bool randomPivot)
             where T : IComparable<T>
         {
             if (low >= high)
@@ -64,15 +64,18 @@ namespace Algorithms
                 return;
             }
 
-            int partition = QuickSort_Partition(list, low, high);
-            QuickSort_Recursive(list, low, partition);
-            QuickSort_Recursive(list, partition + 1, high);
+            int partition = QuickSort_Partition(list, low, high, randomPivot);
+            QuickSort_Recursive(list, low, partition, randomPivot);
+            QuickSort_Recursive(list, partition + 1, high, randomPivot);
         }
 
-        private static int QuickSort_Partition<T>(IList<T> list, int low, int high)
+        private static int QuickSort_Partition<T>(IList<T> list, int low, int high, bool randomPivot)
             where T : IComparable<T>
         {
-            Swap(list, random.Next(low, high), low);
+            if (randomPivot)
+            {
+                Swap(list, random.Next(low, high), low);
+            }
 
             T pivot = list[low];
             int i = low - 1;
