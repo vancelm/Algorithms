@@ -81,6 +81,12 @@ namespace TestConsole
             }
         }
 
+        public static void WorstCaseTest()
+        {
+            Validate();
+        }
+
+
         private static List<int> GetRandomList(int count)
         {
 
