@@ -70,22 +70,19 @@ namespace TestConsole
 
         private static void TestSorts(Func<int, List<int>> getList)
         {
-            for (int i = 1; i <= 1000000000; i *= 10)
+            Console.WriteLine("Count, QuickSortRandom, QuickSortFixed, MergeSort, HeapSort, List.Sort");
+            for (int i = 100; i <= 10000; i += 100)
             {
                 List<int> list = getList(i);
                 Console.Write(i + ",");
                 //Console.Write(SortTest(() => new List<int>(list).BubbleSort()) + ",");
-                Console.Write(TimeAlgorithm(() => QuickSort(new List<int>(list))) + ",");
-                Console.Write(TimeAlgorithm(() => MergeSort(new List<int>(list))) + ",");
+                Console.Write(TimeAlgorithm(() => QuickSort(new List<int>(list))) + ", ");
+                Console.Write(TimeAlgorithm(() => QuickSort(new List<int>(list), false)) + ", ");
+                Console.Write(TimeAlgorithm(() => MergeSort(new List<int>(list))) + ", ");
+                Console.Write(TimeAlgorithm(() => HeapSort(new List<int>(list))) + ", ");
                 Console.Write(TimeAlgorithm(() => new List<int>(list).Sort()) + "\r\n");
             }
         }
-
-        public static void WorstCaseTest()
-        {
-            Validate();
-        }
-
 
         private static List<int> GetRandomList(int count)
         {
