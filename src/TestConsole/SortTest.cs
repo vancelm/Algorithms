@@ -28,6 +28,9 @@ namespace TestConsole
 
             list = new List<int>(unsortedList);
             ValidateSort(sortedList, list, () => MergeSort(list), "Merge:    ");
+
+            list = new List<int>(unsortedList);
+            ValidateSort(sortedList, list, () => HeapSort(list), "Heap:    ");
         }
 
         private static bool ValidateSort<T>(List<T> sortedList, List<T> list, Action sort, string name)
