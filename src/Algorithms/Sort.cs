@@ -182,33 +182,35 @@ namespace Algorithms
         public static void HeapSort<T>(IList<T> list)
             where T : IComparable<T>
         {
-            for (int i = list.Count / 2 - 1; i > 0; i--)
-                MakeHeap(list, i);
+            int n = list.Count;
 
-            for (int i = list.Count - 1; i > 0; i--)
+            for (int i = n / 2 - 1; i >= 0; i--)
+                MakeHeap(list, n, i);
+
+            for (int i = n - 1; i > 0; i--)
             {
                 Swap(list, 0, i);
-                MakeHeap(list, 0);
+                MakeHeap(list, i, 0);
             }
         }
 
-        private static void MakeHeap<T>(IList<T> list, int i)
+        private static void MakeHeap<T>(IList<T> list, int n, int i)
             where T : IComparable<T>
         {
             int largest = i;
             int l = 2 * i + 1;
             int r = 2 * i + 2;
 
-            if (l < list.Count && list[l].CompareTo(list[largest]) > 0)
+            if (l < n && list[l].CompareTo(list[largest]) > 0)
                 largest = l;
 
-            if (r < list.Count && list[r].CompareTo(list[largest]) > 0)
+            if (r < n && list[r].CompareTo(list[largest]) > 0)
                 largest = r;
 
             if (largest != i)
             {
                 Swap(list, i, largest);
-                MakeHeap(list, largest);
+                MakeHeap(list, n, largest);
             }
         }
     }
