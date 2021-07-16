@@ -78,13 +78,13 @@ namespace TestConsole
 
         private static void TestSorts(Func<int, List<int>> getList)
         {
-            List<Action<List<int>>> algorithms = new();
-            algorithms.Add(ListSort);
-            algorithms.Add(QuickSort);
-            algorithms.Add(QuickSort2);
-            algorithms.Add(MergeSort);
-            algorithms.Add(HeapSort);
-            algorithms.Add(HeapSort2);
+            List<Action<List<int>>> sorts = new();
+            sorts.Add(ListSort);
+            sorts.Add(QuickSort);
+            sorts.Add(QuickSort2);
+            sorts.Add(MergeSort);
+            sorts.Add(HeapSort);
+            sorts.Add(HeapSort2);
 
             Console.WriteLine("Count,  List.Sort, QuickSort1, QuickSort2,  MergeSort,  HeapSort1,  HeapSort2");
 
@@ -94,7 +94,7 @@ namespace TestConsole
                 List<int> list = getList(i);
                 Console.Write($"{i,5}");
 
-                foreach (var algorithm in algorithms)
+                foreach (Action<List<int>> sort in sorts)
                 {
                     double[] elapsed = new double[iterations];
 
@@ -103,7 +103,7 @@ namespace TestConsole
                         List<int> listCopy;
                         listCopy = new(list);
                         
-                        elapsed[i] = TimeAlgorithm(() => algorithm(listCopy));
+                        elapsed[i] = TimeAlgorithm(() => sort(listCopy));
                     });
 
                     Console.Write($", {elapsed.Min(),10:0.0000}");
