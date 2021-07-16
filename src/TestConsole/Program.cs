@@ -23,6 +23,9 @@ namespace TestConsole
                 case "knapsack":
                     KnapsackTest.Test();
                     break;
+                case "search":
+                    SearchTest.Test();
+                    break;
                 default:
                     Console.WriteLine("Unknown test specified.");
                     return;
