@@ -10,9 +10,6 @@ namespace TestConsole
 {
     internal static class SortTest
     {
-        private static readonly Random random = new Random();
-        private static readonly Stopwatch stopwatch = new Stopwatch();
-
         private static void Validate()
         {
             List<int> unsortedList = GetRandomList(20);
@@ -113,29 +110,6 @@ namespace TestConsole
             }
         }
 
-        private static List<int> GetRandomList(int count)
-        {
 
-            List<int> list = new List<int>(count);
-            for (int i = 0; i < count; i++)
-                list.Add(random.Next(count));
-            return list;
-        }
-
-        private static List<int> GetSequentialList(int count)
-        {
-            List<int> list = new List<int>(count);
-            for (int i = 0; i < count; i++)
-                list.Add(i);
-            return list;
-        }
-
-        private static List<int> GetReverseList(int count)
-        {
-            List<int> list = new List<int>(count);
-            for (int i = count - 1; i >= 0; i--)
-                list.Add(i);
-            return list;
-        }
     }
 }
