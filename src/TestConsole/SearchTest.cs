@@ -47,7 +47,7 @@ namespace TestConsole
             Console.WriteLine("Test 1 (evenly distributed search values)");
             Console.WriteLine(" Count, Sequential,     Binary");
 
-            for (int i = 10000; i <= 100000; i += 10000)
+            for (int i = 100; i <= 1000; i += 100)
             {
                 Console.Write($"{i,6}");
 
@@ -76,11 +76,11 @@ namespace TestConsole
             searches.Add(BinarySearch);
 
             Console.WriteLine("Test 2 (worst case)");
-            Console.WriteLine(" Count, Sequential,     Binary");
+            Console.WriteLine("    Count, Sequential,     Binary");
 
-            for (int i = 10000000; i <= 100000000; i += 10000000)
+            for (int i = 1000; i <= 10000; i += 1000)
             {
-                Console.Write($"{i,6}");
+                Console.Write($"{i,9}");
 
                 List<int> list = GetSequentialList(i);
                 foreach (var search in searches)
