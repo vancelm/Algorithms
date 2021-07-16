@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Algorithms
 {
@@ -22,6 +23,11 @@ namespace Algorithms
             T temp = list[index1];
             list[index1] = list[index2];
             list[index2] = temp;
+        }
+
+        public static void ListSort<T>(List<T> list)
+        {
+            list.Sort();
         }
 
         /// <summary>
@@ -50,10 +56,16 @@ namespace Algorithms
         /// <param name="list">The list containing elements to be sorted.</param>
         /// <param name="randomPivot">Specifies whether the quick sort pivot should be randomized.</param>
         /// <typeparam name="T">The type of elements in the list.</typeparam>
-        public static void QuickSort<T>(IList<T> list, bool randomPivot = true)
+        public static void QuickSort<T>(IList<T> list)
             where T : IComparable<T>
         {
-            QuickSort_Recursive(list, 0, list.Count - 1, randomPivot);
+            QuickSort_Recursive(list, 0, list.Count - 1, true);
+        }
+
+        public static void QuickSort2<T>(IList<T> list)
+            where T : IComparable<T>
+        {
+            QuickSort_Recursive(list, 0, list.Count - 1, false);
         }
 
         private static void QuickSort_Recursive<T>(IList<T> list, int low, int high, bool randomPivot)
