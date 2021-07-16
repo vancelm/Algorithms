@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 using static Algorithms.Sort;
 using static TestConsole.AlgorithmTestHelper;
 
@@ -24,13 +26,16 @@ namespace TestConsole
             ValidateSort(sortedList, list, () => BubbleSort(list), "BubbleSort: ");
 
             list = new List<int>(unsortedList);
-            ValidateSort(sortedList, list, () => QuickSort(list), "QuickSort:  ");
+            ValidateSort(sortedList, list, () => QuickSort(list), "QuickSort1: ");
+
+            list = new List<int>(unsortedList);
+            ValidateSort(sortedList, list, () => QuickSort2(list), "QuickSort2: ");
 
             list = new List<int>(unsortedList);
             ValidateSort(sortedList, list, () => MergeSort(list), "MergeSort:  ");
 
             list = new List<int>(unsortedList);
-            ValidateSort(sortedList, list, () => HeapSort(list), "HeapSort:   ");
+            ValidateSort(sortedList, list, () => HeapSort(list), "HeapSort1:  ");
 
             list = new List<int>(unsortedList);
             ValidateSort(sortedList, list, () => HeapSort2(list), "HeapSort2:  ");
@@ -73,19 +78,38 @@ namespace TestConsole
 
         private static void TestSorts(Func<int, List<int>> getList)
         {
-            Console.WriteLine("Count, List.Sort, BubbleSort, QuickSort1, QuickSort2, MergeSort, HeapSort, HeapSort2");
-            
+            List<Action<List<int>>> algorithms = new();
+            algorithms.Add(ListSort);
+            algorithms.Add(QuickSort);
+            algorithms.Add(QuickSort2);
+            algorithms.Add(MergeSort);
+            algorithms.Add(HeapSort);
+            algorithms.Add(HeapSort2);
+
+            Console.WriteLine("Count,  List.Sort, QuickSort1, QuickSort2,  MergeSort,  HeapSort1,  HeapSort2");
+
+            int iterations = 1000;
             for (int i = 100; i <= 10000; i += 100)
             {
                 List<int> list = getList(i);
-                Console.Write(i + ", ");
-                Console.WriteLine(TimeAlgorithm(() => new List<int>(list).Sort()));
-                Console.Write(TimeAlgorithm(() => BubbleSort(new List<int>(list))) + ", ");
-                Console.Write(TimeAlgorithm(() => QuickSort(new List<int>(list))) + ", ");
-                Console.Write(TimeAlgorithm(() => QuickSort(new List<int>(list), false)) + ", ");
-                Console.Write(TimeAlgorithm(() => MergeSort(new List<int>(list))) + ", ");
-                Console.Write(TimeAlgorithm(() => HeapSort(new List<int>(list))) + ", ");
-                Console.Write(TimeAlgorithm(() => HeapSort2(new List<int>(list))) + ", ");
+                Console.Write($"{i,5}");
+
+                foreach (var algorithm in algorithms)
+                {
+                    double[] elapsed = new double[iterations];
+
+                    Parallel.For(0, iterations, i =>
+                    {
+                        List<int> listCopy;
+                        listCopy = new(list);
+                        
+                        elapsed[i] = TimeAlgorithm(() => algorithm(listCopy));
+                    });
+
+                    Console.Write($", {elapsed.Min(),10:0.0000}");
+                }
+
+                Console.WriteLine();
             }
         }
 
