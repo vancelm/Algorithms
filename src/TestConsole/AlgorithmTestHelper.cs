@@ -5,11 +5,10 @@ namespace TestConsole
 {
     internal static class AlgorithmTestHelper
     {
-        private static readonly Stopwatch stopwatch = new Stopwatch();
-
         public static double TimeAlgorithm(Action action)
         {
-            stopwatch.Restart();
+            Stopwatch stopwatch = new();
+            stopwatch.Start();
             action();
             stopwatch.Stop();
             return stopwatch.Elapsed.TotalMilliseconds;
